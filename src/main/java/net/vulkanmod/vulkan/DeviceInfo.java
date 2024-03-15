@@ -160,7 +160,7 @@ public class DeviceInfo {
         return (v >>> 22 & 0x3FF) + "." + (v >>> 14 & 0xff) + "." + (v >>> 6 & 0xff) + "." + (v & 0xff);
     }
 
-    static int getInstVkVer() {
+    public static int getInstVkVer() {
         try(MemoryStack stack = stackPush())
         {
             var a = stack.mallocInt(1);

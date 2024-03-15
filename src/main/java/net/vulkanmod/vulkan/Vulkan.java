@@ -225,9 +225,9 @@ public class Vulkan {
 
             appInfo.sType(VK_STRUCTURE_TYPE_APPLICATION_INFO);
             appInfo.pApplicationName(stack.UTF8Safe("VulkanMod"));
-            appInfo.applicationVersion(VK_MAKE_VERSION(1, 0, 0));
+            appInfo.applicationVersion(DeviceInfo.getInstVkVer());
             appInfo.pEngineName(stack.UTF8Safe("VulkanMod Engine"));
-            appInfo.engineVersion(VK_MAKE_VERSION(1, 0, 0));
+            appInfo.engineVersion(DeviceInfo.getInstVkVer());
             appInfo.apiVersion(DeviceInfo.getInstVkVer());
 
             VkInstanceCreateInfo createInfo = VkInstanceCreateInfo.calloc(stack);

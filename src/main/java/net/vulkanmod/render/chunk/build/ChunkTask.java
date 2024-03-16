@@ -186,7 +186,9 @@ public abstract class ChunkTask {
 
                         bufferBuilder.setBlockAttributes(fluidState.createLegacyBlock());
 
-                        blockRenderDispatcher.renderLiquid(blockPos, renderChunkRegion, bufferBuilder, blockState, fluidState);
+						if (!fluidState.isSource() || waterOccluded(blockState, blockPos, renderChunkRegion)) {
+                        	blockRenderDispatcher.renderLiquid(blockPos, renderChunkRegion, bufferBuilder, blockState, fluidState);
+						}
                     }
 
                     if (blockState.getRenderShape() != RenderShape.INVISIBLE) {
@@ -235,8 +237,27 @@ public abstract class ChunkTask {
             return compileResults;
         }
 
-        private RenderType compactRenderTypes(RenderType renderType) {
+		private static boolean waterOccluded(BlockState blockPos, BlockPos pos, RenderChunkRegion renderChunkRegion) {
+			if(!renderChunkRegion.canSeeSky(pos.above())) {
+				final BlockPos east = pos.east();
+				final boolean left = blockPos.isViewBlocking(renderChunkRegion, east)|| isFluid(renderChunkRegion, east);
+				final BlockPos west = pos.west();
+				final boolean right = blockPos.isViewBlocking(renderChunkRegion, west)|| isFluid(renderChunkRegion, west);
+				final BlockPos north = pos.north();
+				final boolean front = blockPos.isViewBlocking(renderChunkRegion, north)|| isFluid(renderChunkRegion, north);
+				final BlockPos south = pos.south();
+				final boolean back = blockPos.isViewBlocking(renderChunkRegion, south)|| isFluid(renderChunkRegion, south);
+				return left | front | back | right;
+			}
 
+			return true;
+		}
+
+		private static boolean isFluid(RenderChunkRegion renderChunkRegion, BlockPos east) {
+			return renderChunkRegion.getFluidState(east).isEmpty();			        				
+		}
+
+        private RenderType compactRenderTypes(RenderType renderType) {
             if(Initializer.CONFIG.uniqueOpaqueLayer) {
                 if (renderType != RenderType.translucent()) {
                     renderType = renderType == RenderType.tripwire() ? RenderType.translucent() : RenderType.cutoutMipped();
@@ -326,6 +347,6 @@ public abstract class ChunkTask {
     
     public enum Result {
         CANCELLED,
-        SUCCESSFUL;
+        SUCCESSFUL
     }
 }

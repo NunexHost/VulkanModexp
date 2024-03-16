@@ -158,7 +158,7 @@ public class DeviceInfo {
         }
     }
 
-	public static int getGPUApiVer() {	
+	public int getGPUApiVer() {	
         var properties = this.properties.properties();
 
 		var orig = properties.apiVersion();

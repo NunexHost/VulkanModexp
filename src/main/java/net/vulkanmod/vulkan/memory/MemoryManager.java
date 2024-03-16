@@ -38,7 +38,7 @@ public class MemoryManager {
     private ObjectArrayList<Runnable>[] frameOps = new ObjectArrayList[Frames];
 
     // debug
-    // private ObjectArrayList<StackTraceElement[]>[] stackTraces;
+    private ObjectArrayList<StackTraceElement[]>[] stackTraces;
 
     public static MemoryManager getInstance() {
         return INSTANCE;
@@ -55,21 +55,19 @@ public class MemoryManager {
     }
 
     MemoryManager() {
-        for(int i = 0; i < Frames; ++i) {
+        for (int i = 0; i < Frames; ++i) {
             freeableBuffers[i] = new ObjectArrayList<>();
             freeableImages[i] = new ObjectArrayList<>();
 
             frameOps[i] = new ObjectArrayList<>();
         }
 
-		/*
         if (DEBUG) {
             stackTraces = new ObjectArrayList[Frames];
             for(int i = 0; i < Frames; ++i) {
                 stackTraces[i] = new ObjectArrayList<>();
             }
         }
-		*/
     }
 
     public synchronized void initFrame(int frame) {

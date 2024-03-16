@@ -245,61 +245,63 @@ public class GraphicsPipeline extends Pipeline {
             int elementCount = formatElement.getCount();
 
             switch (usage) {
-                case POSITION :
-                    if(type == VertexFormatElement.Type.FLOAT) {
-                        posDescription.format(VK_FORMAT_R32G32B32_SFLOAT);
-                        posDescription.offset(offset);
+                case POSITION:
+                    switch (type) {
+						case VertexFormatElement.Type.FLOAT:
+							posDescription.format(VK_FORMAT_R32G32B32_SFLOAT);
+							posDescription.offset(offset);
 
-                        offset += 12;
-                    }
-                    else if (type == VertexFormatElement.Type.SHORT) {
-                        posDescription.format(VK_FORMAT_R16G16B16A16_SINT);
-                        posDescription.offset(offset);
+							offset += 12;
+							break;  
+						case VertexFormatElement.Type.USHORT:
+							posDescription.format(VK_FORMAT_R16G16B16_SFLOAT);
+							posDescription.offset(offset);
 
-                        offset += 8;
-                    }
-                    else if (type == VertexFormatElement.Type.BYTE) {
-                        posDescription.format(VK_FORMAT_R8G8B8A8_SINT);
-                        posDescription.offset(offset);
+							offset += 6;
+							break;
+						case VertexFormatElement.Type.BYTE:
+							posDescription.format(VK_FORMAT_R8G8B8A8_SINT);
+							posDescription.offset(offset);
 
-                        offset += 4;
-                    }
-
+							offset += 4;
+							break;
+					}
                     break;
 
                 case COLOR:
                     posDescription.format(VK_FORMAT_R8G8B8A8_UNORM);
                     posDescription.offset(offset);
 
-//                offset += 16;
                     offset += 4;
                     break;
 
                 case UV:
-                    if(type == VertexFormatElement.Type.FLOAT){
-                        posDescription.format(VK_FORMAT_R32G32_SFLOAT);
-                        posDescription.offset(offset);
+                    switch (type) {
+						case VertexFormatElement.Type.FLOAT:
+							posDescription.format(VK_FORMAT_R32G32_SFLOAT);
+							posDescription.offset(offset);
 
-                        offset += 8;
-                    }
-                    else if(type == VertexFormatElement.Type.SHORT){
-                        posDescription.format(VK_FORMAT_R16G16_SINT);
-                        posDescription.offset(offset);
+							offset += 8;
+							break;
+						case VertexFormatElement.Type.SHORT:
+							posDescription.format(VK_FORMAT_R16G16_SINT);
+							posDescription.offset(offset);
 
-                        offset += 4;
-                    }
-                    else if(type == VertexFormatElement.Type.USHORT){
-                        posDescription.format(VK_FORMAT_R16G16_UINT);
-                        posDescription.offset(offset);
+							offset += 4;
+							break;
+						case VertexFormatElement.Type.USHORT:
+							posDescription.format(VK_FORMAT_R16G16_UINT);
+							posDescription.offset(offset);
 
-                        offset += 4;
-                    }
-                    else if(type == VertexFormatElement.Type.UINT){
-                        posDescription.format(VK_FORMAT_R32_UINT);
-                        posDescription.offset(offset);
+							offset += 4;
+							break;
+						case VertexFormatElement.Type.UINT:
+							posDescription.format(VK_FORMAT_R32_UINT);
+							posDescription.offset(offset);
 
-                        offset += 4;
-                    }
+							offset += 4;
+						break;
+					}
                     break;
 
                 case NORMAL:

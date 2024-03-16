@@ -590,35 +590,20 @@ public class TerrainBufferBuilder implements VertexConsumer {
 			short sY = (short) (y * POS_CONV + 0.1f);
 			short sZ = (short) (z * POS_CONV + 0.1f);
 
-			//		short sX = (short) (x * 1.0001f * POS_CONV + 0.1f);
-			//		short sY = (short) (y * 1.0001f * POS_CONV + 0.1f);
-			//		short sZ = (short) (z * 1.0001f * POS_CONV + 0.1f);
-			//		short sX = (short) (x * 0.99999999f * POS_CONV);
-			//		short sY = (short) (y * 0.99999999f * POS_CONV);
-			//		short sZ = (short) (z * 0.99999999f * POS_CONV);
-
-			//Debug
-			//		short x1 = (short) Math.round((x) * POS_CONV);
-			//		float y1 = (short) Math.round((y) * POS_CONV);
-			//		float z1 = (short) Math.round((z) * POS_CONV);
-			//
-			//		if(x1 != sX || y1 != sY || z1 != sZ)
-			//			System.nanoTime();
-
 			MemoryUtil.memPutShort(ptr + 0, sX);
 			MemoryUtil.memPutShort(ptr + 2, sY);
 			MemoryUtil.memPutShort(ptr + 4, sZ);
 
 			int temp = VertexUtil.packColor(red, green, blue, alpha);
-			MemoryUtil.memPutInt(ptr + 8, temp);
+			MemoryUtil.memPutInt(ptr + 6, temp);
 
 			final int u1 = ((int) (u * UV_CONV));
 			final int v1 = ((int) (v * UV_CONV));
-			MemoryUtil.memPutInt(ptr + 12, u1 | v1 << 16);
+			MemoryUtil.memPutInt(ptr + 10, u1 | v1 << 16);
 
-			MemoryUtil.memPutInt(ptr + 16, light);
+			MemoryUtil.memPutInt(ptr + 14, light);
 
-			nextElementByte += 20;
+			nextElementByte += 18;
 			endVertex();
 		}
 	}

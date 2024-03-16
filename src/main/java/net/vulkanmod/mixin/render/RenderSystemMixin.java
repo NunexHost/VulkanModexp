@@ -481,7 +481,6 @@ public abstract class RenderSystemMixin {
      */
     @Overwrite(remap = false)
     public static void texParameter(int target, int pname, int param) {
-        // GlTexture.texParameteri(target, pname, param);
-		// Might fix?
+        GlTexture.texParameteri(target, pname, param);	
     }
 }

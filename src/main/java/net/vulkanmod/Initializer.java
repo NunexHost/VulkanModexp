@@ -17,13 +17,13 @@ public class Initializer implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-
 		VERSION = FabricLoader.getInstance()
 				.getModContainer("vulkanmod")
 				.get()
 				.getMetadata()
 				.getVersion().getFriendlyString();
 
+		LOGGER.info("Expect High FPS at the cost of stability.")
 		LOGGER.info("== VulkanMod ==");
 
 		VideoResolution.init();

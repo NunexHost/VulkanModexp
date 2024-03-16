@@ -30,11 +30,6 @@ public class MemoryManager {
     private static final long allocator = Vulkan.getAllocator();
     static int Frames;
 
-//    private static long deviceMemory = 0;
-//    private static long nativeMemory = 0;
-//    private static final long nativeMemoryMax = MemoryType.BAR_MEM.maxSize;
-//    private static final long deviceMemoryMax = MemoryType.GPU_MEM.maxSize;
-
     private int currentFrame = 0;
 
     private ObjectArrayList<Buffer.BufferInfo>[] freeableBuffers = new ObjectArrayList[Frames];
@@ -42,8 +37,8 @@ public class MemoryManager {
 
     private ObjectArrayList<Runnable>[] frameOps = new ObjectArrayList[Frames];
 
-    //debug
-    private ObjectArrayList<StackTraceElement[]>[] stackTraces;
+    // debug
+    // private ObjectArrayList<StackTraceElement[]>[] stackTraces;
 
     public static MemoryManager getInstance() {
         return INSTANCE;
@@ -67,12 +62,14 @@ public class MemoryManager {
             frameOps[i] = new ObjectArrayList<>();
         }
 
-        if(DEBUG) {
+		/*
+        if (DEBUG) {
             stackTraces = new ObjectArrayList[Frames];
             for(int i = 0; i < Frames; ++i) {
                 stackTraces[i] = new ObjectArrayList<>();
             }
         }
+		*/
     }
 
     public synchronized void initFrame(int frame) {
@@ -92,34 +89,30 @@ public class MemoryManager {
             this.doFrameOps(frame);
         }
 
-//        buffers.values().forEach(buffer -> freeBuffer(buffer.getId(), buffer.getAllocation()));
-//        images.values().forEach(image -> image.doFree(this));
+		// buffers.values().forEach(buffer -> freeBuffer(buffer.getId(), buffer.getAllocation()));
+		// images.values().forEach(image -> image.doFree(this));
     }
 
     public void createBuffer(long size, int usage, int properties, LongBuffer pBuffer, PointerBuffer pBufferMemory) {
-
-        try(MemoryStack stack = stackPush()) {
-
+        try (MemoryStack stack = stackPush()) {
             VkBufferCreateInfo bufferInfo = VkBufferCreateInfo.callocStack(stack);
             bufferInfo.sType(VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO);
             bufferInfo.size(size);
             bufferInfo.usage(usage);
-            //bufferInfo.sharingMode(VK_SHARING_MODE_EXCLUSIVE);
-//
+            // bufferInfo.sharingMode(VK_SHARING_MODE_EXCLUSIVE);
+
             VmaAllocationCreateInfo allocationInfo  = VmaAllocationCreateInfo.callocStack(stack);
-            //allocationInfo.usage(VMA_MEMORY_USAGE_CPU_ONLY);
+            // allocationInfo.usage(VMA_MEMORY_USAGE_CPU_ONLY);
             allocationInfo.requiredFlags(properties);
 
             int result = vmaCreateBuffer(allocator, bufferInfo, allocationInfo, pBuffer, pBufferMemory, null);
-            if(result != VK_SUCCESS) {
-                throw new RuntimeException("Failed to create buffer:" + result);
+            if (result != VK_SUCCESS) {
+                throw new RuntimeException("Failed to create buffer: " + result);
             }
-
         }
     }
 
     public synchronized void createBuffer(Buffer buffer, int size, int usage, int properties) {
-
         try (MemoryStack stack = stackPush()) {
             buffer.setBufferSize(size);
 

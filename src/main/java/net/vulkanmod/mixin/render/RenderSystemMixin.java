@@ -357,6 +357,7 @@ public abstract class RenderSystemMixin {
         shaderLightDirections[0] = p_157174_;
         shaderLightDirections[1] = p_157175_;
 
+<<<<<<< HEAD
         VRenderSystem.lightDirection0.buffer().putFloat(0, p_157174_.x());
         VRenderSystem.lightDirection0.buffer().putFloat(4, p_157174_.y());
         VRenderSystem.lightDirection0.buffer().putFloat(8, p_157174_.z());
@@ -364,6 +365,15 @@ public abstract class RenderSystemMixin {
         VRenderSystem.lightDirection1.buffer().putFloat(0, p_157175_.x());
         VRenderSystem.lightDirection1.buffer().putFloat(4, p_157175_.y());
         VRenderSystem.lightDirection1.buffer().putFloat(8, p_157175_.z());
+=======
+        VRenderSystem.lightDirection0.buffer.putFloat(0, p_157174_.x());
+        VRenderSystem.lightDirection0.buffer.putFloat(4, p_157174_.y());
+        VRenderSystem.lightDirection0.buffer.putFloat(8, p_157174_.z());
+
+        VRenderSystem.lightDirection1.buffer.putFloat(0, p_157175_.x());
+        VRenderSystem.lightDirection1.buffer.putFloat(4, p_157175_.y());
+        VRenderSystem.lightDirection1.buffer.putFloat(8, p_157175_.z());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     /**

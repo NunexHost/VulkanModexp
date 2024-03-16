@@ -1,6 +1,10 @@
 package net.vulkanmod.render.chunk;
 
 import com.google.common.collect.Lists;
+<<<<<<< HEAD
+=======
+import com.google.common.collect.Sets;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
@@ -26,7 +30,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.vulkanmod.Initializer;
+<<<<<<< HEAD
 import net.vulkanmod.config.Options;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.interfaces.FrustumMixed;
 import net.vulkanmod.render.PipelineManager;
 import net.vulkanmod.render.chunk.build.ChunkTask;
@@ -40,6 +47,7 @@ import net.vulkanmod.render.profiling.Profiler2;
 import net.vulkanmod.render.vertex.TerrainRenderType;
 import net.vulkanmod.vulkan.Renderer;
 import net.vulkanmod.vulkan.VRenderSystem;
+<<<<<<< HEAD
 import net.vulkanmod.vulkan.queue.Queue;
 import net.vulkanmod.vulkan.shader.GraphicsPipeline;
 import org.joml.FrustumIntersection;
@@ -47,19 +55,34 @@ import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11C;
 import org.lwjgl.vulkan.VK10;
 import org.lwjgl.vulkan.VkCommandBuffer;
+=======
+import net.vulkanmod.vulkan.memory.Buffer;
+import net.vulkanmod.vulkan.memory.IndirectBuffer;
+import net.vulkanmod.vulkan.memory.MemoryTypes;
+import net.vulkanmod.vulkan.shader.GraphicsPipeline;
+import org.joml.FrustumIntersection;
+import org.joml.Matrix4f;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 import javax.annotation.Nullable;
 import java.util.*;
 
+<<<<<<< HEAD
 import static net.vulkanmod.render.vertex.TerrainRenderType.*;
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 public class WorldRenderer {
     private static WorldRenderer INSTANCE;
 
     private final Minecraft minecraft;
 
     private ClientLevel level;
+<<<<<<< HEAD
     private int lastViewDistance;
+=======
+    private int renderDistance;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private final RenderBuffers renderBuffers;
 
     private Vec3 cameraPos;
@@ -75,6 +98,10 @@ public class WorldRenderer {
     private SectionGrid sectionGrid;
 
     private boolean needsUpdate;
+<<<<<<< HEAD
+=======
+    private final Set<BlockEntity> globalBlockEntities = Sets.newHashSet();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     private final TaskDispatcher taskDispatcher;
     private final ResettableQueue<RenderSection> chunkQueue = new ResettableQueue<>();
@@ -87,7 +114,11 @@ public class WorldRenderer {
 
     private VFrustum frustum;
 
+<<<<<<< HEAD
 //    IndirectBuffer[] indirectBuffers;
+=======
+    IndirectBuffer[] indirectBuffers;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 //    UniformBuffers uniformBuffers;
 
     public RenderRegionCache renderRegionCache;
@@ -103,6 +134,7 @@ public class WorldRenderer {
         allocateIndirectBuffers();
 
         Renderer.getInstance().addOnResizeCallback(() -> {
+<<<<<<< HEAD
             for (Map.Entry<TerrainRenderType, ArenaBuffer> entry : DrawBuffers.indirectBuffers2.entrySet()) {
                 entry.getValue().SubmitAll();
             }
@@ -126,6 +158,25 @@ public class WorldRenderer {
 //        }
 
 //        uniformBuffers = new UniformBuffers(100000, MemoryType.GPU_MEM);
+=======
+            if(this.indirectBuffers.length != Renderer.getFramesNum())
+                allocateIndirectBuffers();
+        });
+    }
+
+    private void allocateIndirectBuffers() {
+        if(this.indirectBuffers != null)
+            Arrays.stream(this.indirectBuffers).forEach(Buffer::freeBuffer);
+
+        this.indirectBuffers = new IndirectBuffer[Renderer.getFramesNum()];
+
+        for(int i = 0; i < this.indirectBuffers.length; ++i) {
+            this.indirectBuffers[i] = new IndirectBuffer(1000000, MemoryTypes.HOST_MEM);
+//            this.indirectBuffers[i] = new IndirectBuffer(1000000, MemoryTypes.GPU_MEM);
+        }
+
+//        uniformBuffers = new UniformBuffers(100000, MemoryTypes.GPU_MEM);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public static WorldRenderer init(RenderBuffers renderBuffers) {
@@ -152,18 +203,25 @@ public class WorldRenderer {
     }
 
     public void setupRenderer(Camera camera, Frustum frustum, boolean isCapturedFrustum, boolean spectator) {
+<<<<<<< HEAD
 //        Profiler p = Profiler.getProfiler("chunks");
 //        p.start();
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         Profiler2 profiler = Profiler2.getMainProfiler();
         profiler.push("Setup_Renderer");
 
         benchCallback();
 
+<<<<<<< HEAD
 //        this.frustum = frustum.offsetToFullyIncludeCameraCube(8);
         this.cameraPos = camera.getPosition();
         if (this.minecraft.options.getEffectiveRenderDistance() != this.lastViewDistance) {
             this.allChanged();
         }
+=======
+        this.cameraPos = camera.getPosition();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         this.level.getProfiler().push("camera");
         float cameraX = (float)cameraPos.x();
@@ -207,7 +265,11 @@ public class WorldRenderer {
         float d_yRot = Math.abs(camera.getYRot() - this.lastCamRotY);
         this.needsUpdate |= d_xRot > 2.0f || d_yRot > 2.0f;
 
+<<<<<<< HEAD
         this.needsUpdate |= Initializer.CONFIG.BFSMode ? Math.abs(cameraY - this.lastCameraY) > 2.0f : cameraX != this.lastCameraX || cameraY != this.lastCameraY || cameraZ != this.lastCameraZ; //May have very minor issues, but reduces FPS drops alot when moving
+=======
+        this.needsUpdate |= cameraX != this.lastCameraX || cameraY != this.lastCameraY || cameraZ != this.lastCameraZ;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         if (!isCapturedFrustum) {
 
@@ -216,17 +278,26 @@ public class WorldRenderer {
 //            this.needsUpdate = false;
 
             if (this.needsUpdate) {
+<<<<<<< HEAD
 
 
                 this.frustum = (((FrustumMixed)(frustum)).customFrustum()).offsetToFullyIncludeCameraCube(8);
                 this.sectionGrid.updateFrustumVisibility(this.frustum);
+=======
+                this.needsUpdate = false;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 this.lastCameraX = cameraX;
                 this.lastCameraY = cameraY;
                 this.lastCameraZ = cameraZ;
                 this.lastCamRotX = camera.getXRot();
                 this.lastCamRotY = camera.getYRot();
 
+<<<<<<< HEAD
 //                p2.pushMilestone("frustum");
+=======
+                this.frustum = (((FrustumMixed)(frustum)).customFrustum()).offsetToFullyIncludeCameraCube(8);
+                this.sectionGrid.updateFrustumVisibility(this.frustum);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
                 this.minecraft.getProfiler().push("partial_update");
 
@@ -236,8 +307,16 @@ public class WorldRenderer {
 
                 this.renderRegionCache = new RenderRegionCache();
 
+<<<<<<< HEAD
                 if(flag) this.updateRenderChunks();
                 this.needsUpdate = false;
+=======
+                if(flag)
+                    this.updateRenderChunks();
+                else
+                    this.updateRenderChunksSpectator();
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 this.minecraft.getProfiler().pop();
 
             }
@@ -246,7 +325,11 @@ public class WorldRenderer {
 //            p.round();
         }
 
+<<<<<<< HEAD
 //        this.indirectBuffers[Renderer.getCurrentFrame()].reset();
+=======
+        this.indirectBuffers[Renderer.getCurrentFrame()].reset();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 //        this.uniformBuffers.reset();
 
         this.minecraft.getProfiler().pop();
@@ -267,8 +350,13 @@ public class WorldRenderer {
 
             List<RenderSection> list = Lists.newArrayList();
 
+<<<<<<< HEAD
             for(int i1 = -this.lastViewDistance; i1 <= this.lastViewDistance; ++i1) {
                 for(int j1 = -this.lastViewDistance; j1 <= this.lastViewDistance; ++j1) {
+=======
+            for(int i1 = -this.renderDistance; i1 <= this.renderDistance; ++i1) {
+                for(int j1 = -this.renderDistance; j1 <= this.renderDistance; ++j1) {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
                     RenderSection renderSection1 = this.sectionGrid.getSectionAtBlockPos(new BlockPos(k + SectionPos.sectionToBlockCoord(i1, 8), j, l + SectionPos.sectionToBlockCoord(j1, 8)));
                     if (renderSection1 != null) {
@@ -297,6 +385,7 @@ public class WorldRenderer {
 
     }
 
+<<<<<<< HEAD
     private void trimChunkQueue() {
 
         final int i = Math.max(1024, (this.lastViewDistance * this.lastViewDistance << 4));
@@ -306,6 +395,8 @@ public class WorldRenderer {
         }
     }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private void initUpdate() {
         this.resetUpdateQueues();
 
@@ -320,17 +411,30 @@ public class WorldRenderer {
 
     private void updateRenderChunks() {
         int maxDirectionsChanges = Initializer.CONFIG.advCulling;
+<<<<<<< HEAD
         if(!needsUpdate) return;
 //        if(taskDispatcher.getIdleThreadsCount() == 0)
 //            /*return;*/this.needsUpdate = true;
         //TODO maybe decouple Segments from DrawIndirectCmds: execute ChunkTask then asign a specific section/ via Morton codes, indexes or some other decoupled assignment/indexing implementation.
         // Concerned with the culling. not the drawCallIndirectCommand Contents; at least for Basic Frustum Culling tbh, (i.e. this isn't occlusion Culling, and/or Lods e.g.)_ teselation eg..
+=======
+
+        int buildLimit = taskDispatcher.getIdleThreadsCount() * (Minecraft.getInstance().options.enableVsync().get() ? 6 : 3);
+
+        if(buildLimit == 0)
+            this.needsUpdate = true;
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         while(this.chunkQueue.hasNext()) {
             RenderSection renderSection = this.chunkQueue.poll();
 
 
             if(!renderSection.isCompletelyEmpty()) {
+<<<<<<< HEAD
                 renderSection.getChunkArea().addSections(renderSection);
+=======
+                renderSection.getChunkArea().sectionQueue.add(renderSection);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 this.chunkAreaQueue.add(renderSection.getChunkArea());
                 this.nonEmptyChunks++;
             }
@@ -353,6 +457,7 @@ public class WorldRenderer {
                     this.addNode(renderSection, relativeChunk, direction);
                 }
             }
+<<<<<<< HEAD
             //Push/Insert into updateIndexQueue
         }
 
@@ -366,16 +471,61 @@ public class WorldRenderer {
         //TODO: move uploads into BFS Queue/Thread instead of Main render thread
         taskDispatcher.uploadAllPendingUploads();
         needsUpdate=false;
+=======
+        }
+
+    }
+
+    private void updateRenderChunksSpectator() {
+        int maxDirectionsChanges = Initializer.CONFIG.advCulling;
+
+        int rebuildLimit = taskDispatcher.getIdleThreadsCount();
+
+        if(rebuildLimit == 0)
+            this.needsUpdate = true;
+
+        while(this.chunkQueue.hasNext()) {
+            RenderSection renderSection = this.chunkQueue.poll();
+
+
+            if(!renderSection.isCompletelyEmpty()) {
+                renderSection.getChunkArea().sectionQueue.add(renderSection);
+                this.chunkAreaQueue.add(renderSection.getChunkArea());
+                this.nonEmptyChunks++;
+            }
+
+            this.scheduleUpdate(renderSection);
+
+            for(Direction direction : Util.DIRECTIONS) {
+                RenderSection relativeChunk = renderSection.getNeighbour(direction);
+
+                if (relativeChunk != null && !renderSection.hasDirection(direction.getOpposite())) {
+
+                    this.addNode(renderSection, relativeChunk, direction);
+
+                }
+            }
+        }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     }
 
     private void addNode(RenderSection renderSection, RenderSection relativeChunk, Direction direction) {
+<<<<<<< HEAD
         final byte b = relativeChunk.getChunkArea().inFrustum(relativeChunk.frustumIndex);
         if (b >= FrustumIntersection.PLANE_NX) {
             return;
         }
         if (relativeChunk.getLastFrame() == this.lastFrame) {
             int d = renderSection.mainDir != direction? renderSection.directionChanges + 1 : renderSection.directionChanges;
+=======
+        if (relativeChunk.getChunkArea().inFrustum(relativeChunk.frustumIndex) >= 0) {
+            return;
+        }
+        else if (relativeChunk.getLastFrame() == this.lastFrame) {
+            int d = renderSection.mainDir != direction && !renderSection.isCompletelyEmpty() ?
+                    renderSection.directionChanges + 1 : renderSection.directionChanges;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             relativeChunk.addDir(direction);
 
@@ -383,7 +533,11 @@ public class WorldRenderer {
 
             return;
         }
+<<<<<<< HEAD
         if(b == FrustumIntersection.INTERSECT) {
+=======
+        else if(relativeChunk.getChunkArea().inFrustum(relativeChunk.frustumIndex) == FrustumIntersection.INTERSECT) {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             if(frustum.cubeInFrustum(relativeChunk.xOffset, relativeChunk.yOffset, relativeChunk.zOffset,
                     relativeChunk.xOffset + 16 , relativeChunk.yOffset + 16, relativeChunk.zOffset + 16) >= 0)
                 return;
@@ -424,12 +578,17 @@ public class WorldRenderer {
 
         Profiler2 profiler = Profiler2.getMainProfiler();
         profiler.push("Uploads");
+<<<<<<< HEAD
 
         //TOOD: DrawCmdArray listener/Update pump pergapes...
 
         if(this.taskDispatcher.hasUploads())
             this.needsUpdate = true;
         this.chunkAreaQueue.add(getSectionGrid().chunkAreaManager.getChunkArea(1));
+=======
+        if(this.taskDispatcher.uploadAllPendingUploads())
+            this.needsUpdate = true;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         profiler.pop();
         this.minecraft.getProfiler().popPush("schedule_async_compile");
 
@@ -468,14 +627,26 @@ public class WorldRenderer {
             this.needsUpdate = true;
 //            this.generateClouds = true;
 
+<<<<<<< HEAD
             this.lastViewDistance = this.minecraft.options.getEffectiveRenderDistance();
+=======
+            this.renderDistance = this.minecraft.options.getEffectiveRenderDistance();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             if (this.sectionGrid != null) {
                 this.sectionGrid.releaseAllBuffers();
             }
 
             this.taskDispatcher.clearBatchQueue();
+<<<<<<< HEAD
 
             this.sectionGrid = new SectionGrid(this.level, this.minecraft.options.getEffectiveRenderDistance());
+=======
+            synchronized(this.globalBlockEntities) {
+                this.globalBlockEntities.clear();
+            }
+
+            this.sectionGrid = new SectionGrid(this.level, this.renderDistance);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             this.chunkAreaQueue = new AreaSetQueue(this.sectionGrid.chunkAreaManager.size);
 
             this.onAllChangedCallbacks.forEach(Runnable::run);
@@ -489,7 +660,13 @@ public class WorldRenderer {
     }
 
     public void setLevel(@Nullable ClientLevel level) {
+<<<<<<< HEAD
         this.lastCameraY = Float.MIN_VALUE;
+=======
+        this.lastCameraX = Float.MIN_VALUE;
+        this.lastCameraY = Float.MIN_VALUE;
+        this.lastCameraZ = Float.MIN_VALUE;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         this.lastCameraSectionX = Integer.MIN_VALUE;
         this.lastCameraSectionY = Integer.MIN_VALUE;
         this.lastCameraSectionZ = Integer.MIN_VALUE;
@@ -519,6 +696,7 @@ public class WorldRenderer {
     }
 
     public void renderSectionLayer(RenderType renderType, PoseStack poseStack, double camX, double camY, double camZ, Matrix4f projection) {
+<<<<<<< HEAD
         //debug
 //        Profiler p = Profiler.getProfiler("chunks");
         Profiler2 p = Profiler2.getMainProfiler();
@@ -535,6 +713,9 @@ public class WorldRenderer {
 
 
         RenderSystem.assertOnRenderThread();
+=======
+        TerrainRenderType terrainRenderType = TerrainRenderType.get(renderType);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         renderType.setupRenderState();
 
         this.sortTranslucentSections(camX, camY, camZ);
@@ -542,6 +723,7 @@ public class WorldRenderer {
         this.minecraft.getProfiler().push("filterempty");
         this.minecraft.getProfiler().popPush(() -> "render_" + renderType);
 
+<<<<<<< HEAD
         final boolean isFancy = Options.getGraphicsState();
         final boolean isTranslucent = terrainRenderType == TRANSLUCENT;
         final boolean indirectDraw = Initializer.CONFIG.drawIndirect;
@@ -587,11 +769,58 @@ public class WorldRenderer {
         p.pop();
 
 
+=======
+        final boolean isTranslucent = terrainRenderType == TerrainRenderType.TRANSLUCENT;
+        final boolean indirectDraw = Initializer.CONFIG.indirectDraw;
+
+        VRenderSystem.applyMVP(poseStack.last().pose(), projection);
+
+        Renderer renderer = Renderer.getInstance();
+        GraphicsPipeline pipeline = PipelineManager.getTerrainShader(terrainRenderType);
+        renderer.bindGraphicsPipeline(pipeline);
+        Renderer.getDrawer().bindAutoIndexBuffer(Renderer.getCommandBuffer(), 7);
+
+        int currentFrame = Renderer.getCurrentFrame();
+        Set<TerrainRenderType> allowedRenderTypes = Initializer.CONFIG.uniqueOpaqueLayer ? TerrainRenderType.COMPACT_RENDER_TYPES : TerrainRenderType.SEMI_COMPACT_RENDER_TYPES;
+        if(allowedRenderTypes.contains(terrainRenderType)) {
+            terrainRenderType.setCutoutUniform();
+
+            for(Iterator<ChunkArea> iterator = this.chunkAreaQueue.iterator(isTranslucent); iterator.hasNext();) {
+                ChunkArea chunkArea = iterator.next();
+                var queue = chunkArea.sectionQueue;
+                DrawBuffers drawBuffers = chunkArea.drawBuffers;
+
+                renderer.uploadAndBindUBOs(pipeline);
+                if(drawBuffers.getAreaBuffer(terrainRenderType) != null && queue.size() > 0) {
+
+                    drawBuffers.bindBuffers(Renderer.getCommandBuffer(), pipeline, terrainRenderType, camX, camY, camZ);
+                    renderer.uploadAndBindUBOs(pipeline);
+
+                    if (indirectDraw)
+                        drawBuffers.buildDrawBatchesIndirect(indirectBuffers[currentFrame], queue, terrainRenderType);
+                    else
+                        drawBuffers.buildDrawBatchesDirect(queue, terrainRenderType);
+                }
+            }
+        }
+
+        if(terrainRenderType == TerrainRenderType.CUTOUT || terrainRenderType == TerrainRenderType.TRIPWIRE) {
+            indirectBuffers[currentFrame].submitUploads();
+//            uniformBuffers.submitUploads();
+        }
+
+        //Need to reset push constants in case the pipeline will still be used for rendering
+        if(!indirectDraw) {
+            VRenderSystem.setChunkOffset(0, 0, 0);
+            renderer.pushConstants(pipeline);
+        }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         this.minecraft.getProfiler().pop();
         renderType.clearRenderState();
 
         VRenderSystem.applyMVP(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix());
+<<<<<<< HEAD
 
         switch (terrainRenderType) {
             case CUTOUT -> {
@@ -604,6 +833,8 @@ public class WorldRenderer {
             case TRIPWIRE -> p.pop();
         }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     private void sortTranslucentSections(double camX, double camY, double camZ) {
@@ -680,8 +911,13 @@ public class WorldRenderer {
         this.needsUpdate = true;
     }
 
+<<<<<<< HEAD
     public boolean allUpdated() {
         return !this.needsUpdate;
+=======
+    public boolean needsUpdate() {
+        return this.needsUpdate;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public int getVisibleSectionsCount() {
@@ -717,6 +953,7 @@ public class WorldRenderer {
 //        int j = this.sectionsInFrustum.size();
         int j = this.chunkQueue.size();
         String tasksInfo = this.taskDispatcher == null ? "null" : this.taskDispatcher.getStats();
+<<<<<<< HEAD
         return String.format("Chunks: %d(%d)/%d D: %d, %s", this.nonEmptyChunks, j, i, this.lastViewDistance, tasksInfo);
     }
 
@@ -733,6 +970,14 @@ public class WorldRenderer {
         DrawBuffers.indirectBuffers2.forEach((terrainRenderType, arenaBuffer) -> arenaBuffer.freeBuffer());
 //        DrawBuffers.indirectBuffers2[1].forEach((terrainRenderType, arenaBuffer) -> arenaBuffer.freeBuffer());
 
+=======
+        return String.format("Chunks: %d(%d)/%d D: %d, %s", this.nonEmptyChunks, j, i, this.renderDistance, tasksInfo);
+    }
+
+    public void cleanUp() {
+        if(indirectBuffers != null)
+            Arrays.stream(indirectBuffers).forEach(Buffer::freeBuffer);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
 }

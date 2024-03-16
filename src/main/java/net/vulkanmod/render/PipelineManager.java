@@ -2,9 +2,13 @@ package net.vulkanmod.render;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
+<<<<<<< HEAD
 import net.vulkanmod.config.Option;
 import net.vulkanmod.config.Options;
 import net.vulkanmod.render.chunk.build.ThreadBuilderPack;
+=======
+import net.vulkanmod.render.chunk.build.thread.ThreadBuilderPack;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.render.vertex.CustomVertexFormat;
 import net.vulkanmod.render.vertex.TerrainRenderType;
 import net.vulkanmod.vulkan.shader.GraphicsPipeline;
@@ -35,11 +39,15 @@ public abstract class PipelineManager {
     }
 
     public static void setDefaultShader() {
+<<<<<<< HEAD
         setShaderGetter(renderType -> switch (renderType) {
             default -> terrainShaderEarlyZ;
             case CUTOUT_MIPPED -> Options.getGraphicsState() ? terrainShader : terrainShaderEarlyZ;
             case CUTOUT -> terrainShader;
         });
+=======
+        setShaderGetter(renderType -> renderType == TerrainRenderType.TRANSLUCENT ? terrainShaderEarlyZ : terrainShader);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     private static void createBasicPipelines() {

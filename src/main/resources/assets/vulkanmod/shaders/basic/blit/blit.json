@@ -1,5 +1,9 @@
 {
     "samplers": [
+<<<<<<< HEAD
         { "name": "DiffuseSampler", "binding": 0 }
+=======
+        { "name": "Sampler0" }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     ]
 }

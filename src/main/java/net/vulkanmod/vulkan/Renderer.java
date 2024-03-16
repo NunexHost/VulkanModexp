@@ -1,11 +1,17 @@
 package net.vulkanmod.vulkan;
 
+<<<<<<< HEAD
 import com.mojang.blaze3d.pipeline.RenderTarget;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.Minecraft;
 import net.vulkanmod.Initializer;
+<<<<<<< HEAD
 import net.vulkanmod.gl.GlFramebuffer;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.mixin.window.WindowAccessor;
 import net.vulkanmod.render.chunk.AreaUploadManager;
 import net.vulkanmod.render.PipelineManager;
@@ -15,7 +21,10 @@ import net.vulkanmod.vulkan.framebuffer.RenderPass;
 import net.vulkanmod.vulkan.memory.MemoryManager;
 import net.vulkanmod.vulkan.passes.LegacyMainPass;
 import net.vulkanmod.vulkan.passes.MainPass;
+<<<<<<< HEAD
 import net.vulkanmod.vulkan.queue.Queue;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.vulkan.shader.*;
 import net.vulkanmod.vulkan.shader.layout.PushConstants;
 import net.vulkanmod.vulkan.texture.VTextureSelector;
@@ -41,17 +50,24 @@ import static org.lwjgl.vulkan.KHRSwapchain.*;
 import static org.lwjgl.vulkan.VK10.*;
 
 public class Renderer {
+<<<<<<< HEAD
     public static boolean recomp;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private static Renderer INSTANCE;
 
     private static VkDevice device;
 
     private static boolean swapChainUpdate = false;
+<<<<<<< HEAD
     public static boolean skipRendering, useMode = false;
 
     public static boolean effectActive,renderPassUpdate,hasCalled = false;
     private long boundPipeline;
 
+=======
+    public static boolean skipRendering = false;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public static void initRenderer() {
         INSTANCE = new Renderer();
         INSTANCE.init();
@@ -65,7 +81,11 @@ public class Renderer {
 
     public static int getCurrentImage() { return imageIndex; }
 
+<<<<<<< HEAD
     private final Set<GraphicsPipeline> usedPipelines = new ObjectOpenHashSet<>();
+=======
+    private final Set<Pipeline> usedPipelines = new ObjectOpenHashSet<>();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     private Drawer drawer;
 
@@ -84,13 +104,24 @@ public class Renderer {
     private VkCommandBuffer currentCmdBuffer;
     private boolean recordingCmds = false;
 
+<<<<<<< HEAD
+=======
+//    MainPass mainPass = DefaultMainPass.PASS;
+    MainPass mainPass = LegacyMainPass.PASS;
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private final List<Runnable> onResizeCallbacks = new ObjectArrayList<>();
 
     public Renderer() {
         device = Vulkan.getDevice();
+<<<<<<< HEAD
         framesNum = getSwapChain().getFramesNum();
         imagesNum = getSwapChain().getImagesNum();
         addOnResizeCallback(Queue::trimCmdPools);
+=======
+        framesNum = Initializer.CONFIG.frameQueueSize;
+        imagesNum = getSwapChain().getImagesNum();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     private void init() {
@@ -177,6 +208,7 @@ public class Renderer {
         Profiler2 p = Profiler2.getMainProfiler();
         p.pop();
         p.push("Frame_fence");
+<<<<<<< HEAD
 //        if(recomp)
 //        {
 //            waitIdle();
@@ -213,6 +245,8 @@ public class Renderer {
             recomp=false;
         }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         if(swapChainUpdate) {
             recreateSwapChain();
@@ -235,7 +269,10 @@ public class Renderer {
         vkWaitForFences(device, inFlightFences.get(currentFrame), true, VUtil.UINT64_MAX);
 
         p.pop();
+<<<<<<< HEAD
         p.round();
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         p.push("Begin_rendering");
 
 //        AreaUploadManager.INSTANCE.updateFrame();
@@ -251,7 +288,11 @@ public class Renderer {
         resetDescriptors();
 
         currentCmdBuffer = commandBuffers.get(currentFrame);
+<<<<<<< HEAD
 
+=======
+        vkResetCommandBuffer(currentCmdBuffer, 0);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         recordingCmds = true;
 
         try(MemoryStack stack = stackPush()) {
@@ -284,8 +325,12 @@ public class Renderer {
                 throw new RuntimeException("Failed to begin recording command buffer:" + err);
             }
 
+<<<<<<< HEAD
             boundPipeline=0;
             LegacyMainPass.PASS.begin(commandBuffer, stack);
+=======
+            mainPass.begin(commandBuffer, stack);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             vkCmdSetDepthBias(commandBuffer, 0.0F, 0.0F, 0.0F);
         }
@@ -293,6 +338,7 @@ public class Renderer {
         p.pop();
     }
 
+<<<<<<< HEAD
     private static void updateRenderPassState() {
         RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
         int i = getSwapChain().getWidth();
@@ -306,6 +352,8 @@ public class Renderer {
         GlFramebuffer.bindFramebuffer(36160, 0);
     }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public void endFrame() {
         if(skipRendering)
             return;
@@ -313,6 +361,7 @@ public class Renderer {
         Profiler2 p = Profiler2.getMainProfiler();
         p.push("End_rendering");
 
+<<<<<<< HEAD
         LegacyMainPass.PASS.end(currentCmdBuffer);
 
         if(!hasCalled) {
@@ -330,6 +379,15 @@ public class Renderer {
         submitFrame();
         recordingCmds = false;
         p.pop();
+=======
+        mainPass.end(currentCmdBuffer);
+
+        submitFrame();
+        recordingCmds = false;
+
+        p.pop();
+        p.push("Post_rendering");
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     private void submitFrame() {
@@ -422,6 +480,11 @@ public class Renderer {
 
     public void resetBuffers() {
         Profiler2 p = Profiler2.getMainProfiler();
+<<<<<<< HEAD
+=======
+        p.pop();
+        p.round();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         p.push("Frame_ops");
 
         drawer.resetBuffers(currentFrame);
@@ -430,11 +493,19 @@ public class Renderer {
         Vulkan.getStagingBuffer().reset();
     }
 
+<<<<<<< HEAD
     public void addUsedPipeline(GraphicsPipeline pipeline) {
         usedPipelines.add(pipeline);
     }
 
     public void removeUsedPipeline(GraphicsPipeline pipeline) { usedPipelines.remove(pipeline); }
+=======
+    public void addUsedPipeline(Pipeline pipeline) {
+        usedPipelines.add(pipeline);
+    }
+
+    public void removeUsedPipeline(Pipeline pipeline) { usedPipelines.remove(pipeline); }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     private void resetDescriptors() {
         for(Pipeline pipeline : usedPipelines) {
@@ -464,14 +535,22 @@ public class Renderer {
     private void recreateSwapChain() {
         Vulkan.waitIdle();
 
+<<<<<<< HEAD
         vkResetCommandPool(Vulkan.getDevice(), getCommandPool(), VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
+=======
+        commandBuffers.forEach(commandBuffer -> vkResetCommandBuffer(commandBuffer, 0));
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         Vulkan.recreateSwapChain();
 
         //Semaphores need to be recreated in order to make them unsignaled
         destroySyncObjects();
 
+<<<<<<< HEAD
         int newFramesNum = getSwapChain().getFramesNum();
+=======
+        int newFramesNum = Initializer.CONFIG.frameQueueSize;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         imagesNum = getSwapChain().getImagesNum();
 
         if(framesNum != newFramesNum) {
@@ -520,19 +599,30 @@ public class Renderer {
         return boundRenderPass;
     }
 
+<<<<<<< HEAD
 //    public void setMainPass(MainPass mainPass) { this.mainPass = mainPass; }
 
     public MainPass getMainPass() { return LegacyMainPass.PASS; }
+=======
+    public void setMainPass(MainPass mainPass) { this.mainPass = mainPass; }
+
+    public MainPass getMainPass() { return this.mainPass; }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     public void addOnResizeCallback(Runnable runnable) {
         this.onResizeCallbacks.add(runnable);
     }
 
+<<<<<<< HEAD
     public boolean bindGraphicsPipeline(GraphicsPipeline pipeline) {
+=======
+    public void bindGraphicsPipeline(GraphicsPipeline pipeline) {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         VkCommandBuffer commandBuffer = currentCmdBuffer;
 
         //Debug
         if(boundRenderPass == null)
+<<<<<<< HEAD
             LegacyMainPass.PASS.mainTargetBindWrite(true);
 
         PipelineState currentState = PipelineState.getCurrentPipelineState(boundRenderPass);
@@ -555,6 +645,19 @@ public class Renderer {
     public void uploadAndBindUBOs(Pipeline pipeline, boolean shouldUpdate) {
         VkCommandBuffer commandBuffer = currentCmdBuffer;
         pipeline.bindDescriptorSets(commandBuffer, currentFrame, shouldUpdate);
+=======
+            mainPass.mainTargetBindWrite();
+
+        PipelineState currentState = PipelineState.getCurrentPipelineState(boundRenderPass);
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline.getHandle(currentState));
+
+        addUsedPipeline(pipeline);
+    }
+
+    public void uploadAndBindUBOs(Pipeline pipeline) {
+        VkCommandBuffer commandBuffer = currentCmdBuffer;
+        pipeline.bindDescriptorSets(commandBuffer, currentFrame);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public void pushConstants(Pipeline pipeline) {
@@ -668,8 +771,11 @@ public class Renderer {
     }
 
     public static void resetViewport() {
+<<<<<<< HEAD
         if(!effectActive) scheduleRenderPassUpdate();
         effectActive=hasCalled=true;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         try(MemoryStack stack = stackPush()) {
             int width = getSwapChain().getWidth();
             int height = getSwapChain().getHeight();
@@ -745,5 +851,8 @@ public class Renderer {
     public static boolean isRecording() { return INSTANCE.recordingCmds; }
 
     public static void scheduleSwapChainUpdate() { swapChainUpdate = true; }
+<<<<<<< HEAD
     public static void scheduleRenderPassUpdate() { renderPassUpdate = true; }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

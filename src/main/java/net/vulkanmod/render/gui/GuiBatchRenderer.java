@@ -95,6 +95,7 @@ public class GuiBatchRenderer {
 
     }
 
+<<<<<<< HEAD
     public static void drawTextShadowed(Font font, MultiBufferSource bufferSource, PoseStack poseStack, FormattedCharSequence charSequence, float x, float y, int intensity) {
         drawInternal(font, bufferSource, charSequence, x, y, intensity, poseStack.last().pose(), true);
     }
@@ -105,6 +106,18 @@ public class GuiBatchRenderer {
 
     public static void drawString(Font font, MultiBufferSource bufferSource, PoseStack poseStack, String string, float x, float y, int intensity) {
         drawInternal(font, bufferSource, string, x, y, intensity, poseStack.last().pose(), false, font.isBidirectional());
+=======
+    public static int drawTextShadowed(Font font, MultiBufferSource bufferSource, PoseStack poseStack, FormattedCharSequence charSequence, float x, float y, int intensity) {
+        return drawInternal(font, bufferSource, charSequence, x, y, intensity, poseStack.last().pose(), true);
+    }
+
+    public static int drawTextShadowed(Font font, MultiBufferSource bufferSource, Matrix4f matrix4f, FormattedCharSequence charSequence, float x, float y, int intensity) {
+        return drawInternal(font, bufferSource, charSequence, x, y, intensity, matrix4f, true);
+    }
+
+    public static int drawString(Font font, MultiBufferSource bufferSource, PoseStack poseStack, String string, float x, float y, int intensity) {
+        return drawInternal(font, bufferSource, string, x, y, intensity, poseStack.last().pose(), false, font.isBidirectional());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     private static int drawInternal(Font font, MultiBufferSource bufferSource, FormattedCharSequence formattedCharSequence, float x, float y, int intensity, Matrix4f matrix4f, boolean shadow) {

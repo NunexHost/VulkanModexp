@@ -1,5 +1,9 @@
 #version 450
+<<<<<<< HEAD
 layout (constant_id = 0) const bool USE_FOG = true;
+=======
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 vec4 linear_fog(vec4 inColor, float vertexDistance, float fogStart, float fogEnd, vec4 fogColor) {
     if (vertexDistance <= fogStart) {
         return inColor;
@@ -15,6 +19,10 @@ layout(binding = 0) uniform UniformBufferObject {
 };
 
 layout(binding = 1) uniform UBO{
+<<<<<<< HEAD
+=======
+    vec4 ColorModulator;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     vec4 FogColor;
     float FogStart;
     float FogEnd;
@@ -29,9 +37,15 @@ layout(location = 0) out vec4 fragColor;
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0);
+<<<<<<< HEAD
     color *= vertexColor;
     float fragmentDistance = -ProjMat[3].z / ((gl_FragCoord.z) * -2.0 + 1.0 - ProjMat[2].z);
     fragColor = USE_FOG ? linear_fog(color, fragmentDistance, FogStart, FogEnd, FogColor) : color;
+=======
+    color *= vertexColor * ColorModulator;
+    float fragmentDistance = -ProjMat[3].z / ((gl_FragCoord.z) * -2.0 + 1.0 - ProjMat[2].z);
+    fragColor = linear_fog(color, fragmentDistance, FogStart, FogEnd, FogColor);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }
 
 /*

@@ -2,7 +2,10 @@ package net.vulkanmod.mixin.texture.image;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
+<<<<<<< HEAD
 import net.vulkanmod.vulkan.Renderer;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.vulkan.Vulkan;
 import net.vulkanmod.vulkan.texture.ImageUtil;
 import net.vulkanmod.vulkan.texture.VTextureSelector;
@@ -81,7 +84,11 @@ public abstract class MNativeImage {
     public void downloadTexture(int level, boolean removeAlpha) {
         RenderSystem.assertOnRenderThread();
 
+<<<<<<< HEAD
         ImageUtil.downloadTexture(Renderer.useMode ? VTextureSelector.getBoundTexture(0) : Vulkan.getSwapChain().getColorAttachment(), this.pixels);
+=======
+        ImageUtil.downloadTexture(VTextureSelector.getBoundTexture(0), this.pixels);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         if (removeAlpha && this.format.hasAlpha()) {
             if (this.format != NativeImage.Format.RGBA) {

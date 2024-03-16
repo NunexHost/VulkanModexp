@@ -1,6 +1,10 @@
 package net.vulkanmod.vulkan.memory;
 
 import net.vulkanmod.render.chunk.util.Util;
+<<<<<<< HEAD
+=======
+import net.vulkanmod.vulkan.util.VUtil;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
@@ -11,7 +15,11 @@ import static org.lwjgl.vulkan.VK10.*;
 public class StagingBuffer extends Buffer {
 
     public StagingBuffer(int bufferSize) {
+<<<<<<< HEAD
         super(VK_BUFFER_USAGE_TRANSFER_SRC_BIT, MemoryType.BAR_MEM);
+=======
+        super(VK_BUFFER_USAGE_TRANSFER_SRC_BIT, MemoryTypes.HOST_MEM);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         this.usedBytes = 0;
         this.offset = 0;
 
@@ -32,6 +40,7 @@ public class StagingBuffer extends Buffer {
 
         //createVertexBuffer(vertexSize, vertexCount, byteBuffer);
     }
+<<<<<<< HEAD
     public void copyBuffer2(int size, long byteBuffer) {
 
         if(size > this.bufferSize - this.usedBytes) {
@@ -46,6 +55,8 @@ public class StagingBuffer extends Buffer {
 
         //createVertexBuffer(vertexSize, vertexCount, byteBuffer);
     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     public void align(int alignment) {
         int alignedValue = Util.align(usedBytes, alignment);
@@ -58,7 +69,11 @@ public class StagingBuffer extends Buffer {
     }
 
     private void resizeBuffer(int newSize) {
+<<<<<<< HEAD
         this.type.freeBuffer(this);
+=======
+        MemoryManager.getInstance().addToFreeable(this);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         this.createBuffer(newSize);
 
         System.out.println("resized staging buffer to: " + newSize);

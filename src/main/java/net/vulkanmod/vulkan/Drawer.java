@@ -1,6 +1,10 @@
 package net.vulkanmod.vulkan;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
+<<<<<<< HEAD
+=======
+import net.vulkanmod.render.chunk.AreaUploadManager;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.vulkan.memory.*;
 import net.vulkanmod.vulkan.util.VUtil;
 import org.lwjgl.system.MemoryUtil;
@@ -14,8 +18,13 @@ import static org.lwjgl.vulkan.VK10.*;
 import static org.lwjgl.vulkan.VK10.vkCmdDraw;
 
 public class Drawer {
+<<<<<<< HEAD
     private static final int INITIAL_VB_SIZE = 1048576;
     private static final int INITIAL_UB_SIZE = 65536;
+=======
+    private static final int INITIAL_VB_SIZE = 2000000;
+    private static final int INITIAL_UB_SIZE = 200000;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     private static final LongBuffer buffers = MemoryUtil.memAllocLong(1);
     private static final LongBuffer offsets = MemoryUtil.memAllocLong(1);
@@ -53,7 +62,11 @@ public class Drawer {
         }
         this.vertexBuffers = new VertexBuffer[framesNum];
         for (int i = 0; i < framesNum; ++i) {
+<<<<<<< HEAD
             this.vertexBuffers[i] = new VertexBuffer(INITIAL_VB_SIZE, MemoryType.BAR_MEM);
+=======
+            this.vertexBuffers[i] = new VertexBuffer(INITIAL_VB_SIZE, MemoryTypes.HOST_MEM);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         }
 
         if(this.uniformBuffers != null)

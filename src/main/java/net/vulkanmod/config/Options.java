@@ -2,6 +2,7 @@ package net.vulkanmod.config;
 
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.*;
+<<<<<<< HEAD
 import net.minecraft.network.chat.Component;
 import net.vulkanmod.Initializer;
 import net.vulkanmod.render.chunk.WorldRenderer;
@@ -29,6 +30,22 @@ public class Options {
         minecraftOptions.darkMojangStudiosBackground().set(true);
     }
 
+=======
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.network.chat.Component;
+import net.vulkanmod.Initializer;
+import net.vulkanmod.vulkan.DeviceManager;
+import net.vulkanmod.vulkan.Renderer;
+
+import java.util.stream.IntStream;
+
+public class Options {
+    static net.minecraft.client.Options minecraftOptions = Minecraft.getInstance().options;
+    static Config config = Initializer.CONFIG;
+    static Window window = Minecraft.getInstance().getWindow();
+    public static boolean fullscreenDirty = false;
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public static Option<?>[] getVideoOpts() {
         return new Option[] {
                 new CyclingOption<>("Resolution",
@@ -54,7 +71,11 @@ public class Options {
                             fullscreenDirty = true;
                         },
                         () -> minecraftOptions.fullscreen().get()),
+<<<<<<< HEAD
                 new RangeOption("Framerate Limit", 10, 260, 10,
+=======
+                new RangeOption("Max Framerate", 10, 260, 10,
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                         value -> value == 260 ? "Unlimited" : String.valueOf(value),
                         value -> {
                             minecraftOptions.framerateLimit().set(value);
@@ -67,6 +88,7 @@ public class Options {
                             Minecraft.getInstance().getWindow().updateVsync(value);
                         },
                         () -> minecraftOptions.enableVsync().get()),
+<<<<<<< HEAD
                 new CyclingOption<>("VSync Mode",
                         vsyncModes,
                         value -> Component.nullToEmpty(value == VK_PRESENT_MODE_FIFO_KHR ? "Default (Fifo)" : "Adaptive (Relaxed Fifo)"),
@@ -101,6 +123,8 @@ public class Options {
                         
                         Available Modes vary on GPU Driver + Platform
                         """)),
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 new CyclingOption<>("Gui Scale",
                         new Integer[]{0, 1, 2, 3, 4},
                         value -> value == 0 ? Component.literal("Auto") : Component.literal(value.toString()),
@@ -110,11 +134,19 @@ public class Options {
                         },
                         () -> minecraftOptions.guiScale().get()),
                 new RangeOption("Brightness", 0, 100, 1,
+<<<<<<< HEAD
                         value -> switch (value) {
                             case 0 -> Component.translatable("options.gamma.min").getString();
                             case 50 -> Component.translatable("options.gamma.default").getString();
                             case 100 -> Component.translatable("options.gamma.max").getString();
                             default -> value.toString();
+=======
+                        value -> {
+                          if(value == 0) return Component.translatable("options.gamma.min").getString();
+                          else if(value == 50) return Component.translatable("options.gamma.default").getString();
+                          else if(value == 100) return Component.translatable("options.gamma.max").getString();
+                          return value.toString();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                         },
                         value -> minecraftOptions.gamma().set(value * 0.01),
                         () -> (int) (minecraftOptions.gamma().get() * 100.0)),
@@ -145,6 +177,7 @@ public class Options {
 
     public static Option<?>[] getGraphicsOpts() {
         return new Option[] {
+<<<<<<< HEAD
                 new CyclingOption<>("Fast Graphics Hacks",
                         new GraphicsStatus[]{GraphicsStatus.FAST, GraphicsStatus.FANCY},
                         graphicsMode -> Component.translatable(graphicsMode.getKey()),
@@ -163,6 +196,14 @@ public class Options {
                         * Fast Leaves (Early-Z Culling)
                         """)),
 
+=======
+                new CyclingOption<>("Graphics",
+                        new GraphicsStatus[]{GraphicsStatus.FAST, GraphicsStatus.FANCY},
+                        graphicsMode -> Component.translatable(graphicsMode.getKey()),
+                        value -> minecraftOptions.graphicsMode().set(value),
+                        () -> minecraftOptions.graphicsMode().get()
+                ),
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 new CyclingOption<>("Particles",
                         new ParticleStatus[]{ParticleStatus.MINIMAL, ParticleStatus.DECREASED, ParticleStatus.ALL},
                         particlesMode -> Component.translatable(particlesMode.getKey()),
@@ -173,6 +214,18 @@ public class Options {
                         value -> Component.translatable(value.getKey()),
                         value -> minecraftOptions.cloudStatus().set(value),
                         () -> minecraftOptions.cloudStatus().get()),
+<<<<<<< HEAD
+=======
+                new SwitchOption("Unique opaque layer",
+                        value -> {
+                            config.uniqueOpaqueLayer = value;
+                            Minecraft.getInstance().levelRenderer.allChanged();
+                        },
+                        () -> config.uniqueOpaqueLayer)
+                        .setTooltip(Component.nullToEmpty("""
+                        Improves performance by using a unique render layer for opaque terrain rendering.
+                        It changes distant grass aspect and may cause unexpected texture behaviour""")),
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 new RangeOption("Biome Blend Radius", 0, 7, 1,
                         value -> {
                     int v = value * 2 + 1;
@@ -191,7 +244,13 @@ public class Options {
                 new RangeOption("Render Distance", 2, 32, 1,
                         (value) -> {
                             minecraftOptions.renderDistance().set(value);
+<<<<<<< HEAD
                             Minecraft.getInstance().levelRenderer.needsUpdate();
+=======
+                            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+                            levelRenderer.needsUpdate();
+                            levelRenderer.allChanged();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                         },
                         () -> minecraftOptions.renderDistance().get()),
                 new RangeOption("Simulation Distance", 5, 32, 1,
@@ -205,6 +264,7 @@ public class Options {
                 new RangeOption("Entity Distance", 50, 500, 25,
                         value -> minecraftOptions.entityDistanceScaling().set(value * 0.01),
                         () -> minecraftOptions.entityDistanceScaling().get().intValue() * 100),
+<<<<<<< HEAD
                 new SwitchOption("Animations",
                         value -> config.animations = value,
                         () -> config.animations),
@@ -217,6 +277,8 @@ public class Options {
                             Renderer.recomp=true;
                         },
                         () -> config.renderFog),
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 new CyclingOption<>("Mipmap Levels",
                         new Integer[]{0, 1, 2, 3, 4},
                         value -> Component.nullToEmpty(value.toString()),
@@ -230,7 +292,11 @@ public class Options {
 
     public static Option<?>[] getOtherOpts() {
         return new Option[] {
+<<<<<<< HEAD
                 new RangeOption("Render queue size", 1,
+=======
+                new RangeOption("Render queue size", 2,
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                         5, 1,
                         value -> {
                             config.frameQueueSize = value;
@@ -270,6 +336,7 @@ public class Options {
                         .setTooltip(Component.nullToEmpty("""
                         Enables culling for entities on not visible sections.""")),
                 new SwitchOption("Indirect Draw",
+<<<<<<< HEAD
                         value -> config.drawIndirect = value,
                         () -> config.drawIndirect)
                         .setTooltip(Component.nullToEmpty("""
@@ -283,6 +350,34 @@ public class Options {
                 new CyclingOption<>("Device selector",
                         IntStream.range(-1, DeviceManager.suitableDevices.size()).boxed().toArray(Integer[]::new),
                         value -> Component.nullToEmpty(value == -1 ? "Auto" : DeviceManager.suitableDevices.get(value).deviceName),
+=======
+                        value -> config.indirectDraw = value,
+                        () -> config.indirectDraw)
+                        .setTooltip(Component.nullToEmpty("""
+                        Reduces CPU overhead but increases GPU overhead.
+                        Enabling it might help in CPU limited systems.""")),
+                new SwitchOption("Low VRAM Mode",
+                        value -> {
+                            config.perRenderTypeAreaBuffers = value;
+                            Minecraft.getInstance().levelRenderer.allChanged();
+                        },
+                        () -> config.perRenderTypeAreaBuffers).setTooltip(Component.nullToEmpty("""
+                        Reduces VRAM usage by approx 20%
+                        May Increase/Decrease FPS: Depends on GPU architecture
+                        (Can boost performance on Old Nvidia cards)""")),
+                new CyclingOption<>("Device selector",
+                        IntStream.range(-1, DeviceManager.suitableDevices.size()).boxed().toArray(Integer[]::new),
+                        value -> {
+                            String t;
+
+                            if(value == -1)
+                                t = "Auto";
+                            else
+                                t = DeviceManager.suitableDevices.get(value).deviceName;
+
+                            return Component.nullToEmpty(t);
+                        },
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                         value -> config.device = value,
                         () -> config.device)
                         .setTooltip(Component.nullToEmpty(
@@ -300,8 +395,11 @@ public class Options {
 
         config.write();
     }
+<<<<<<< HEAD
 
     public static boolean getGraphicsState() {
         return fancy;
     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

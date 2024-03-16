@@ -1,10 +1,21 @@
 package net.vulkanmod.render.chunk.build;
 
 import com.google.common.collect.Queues;
+<<<<<<< HEAD
 import net.vulkanmod.render.chunk.AreaUploadManager;
 import net.vulkanmod.render.chunk.DrawBuffers;
 import net.vulkanmod.render.chunk.RenderSection;
 import net.vulkanmod.render.vertex.TerrainRenderType;
+=======
+import com.mojang.logging.LogUtils;
+import net.vulkanmod.render.chunk.AreaUploadManager;
+import net.vulkanmod.render.chunk.ChunkArea;
+import net.vulkanmod.render.chunk.DrawBuffers;
+import net.vulkanmod.render.chunk.RenderSection;
+import net.vulkanmod.render.chunk.build.thread.ThreadBuilderPack;
+import net.vulkanmod.render.vertex.TerrainRenderType;
+import org.slf4j.Logger;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -130,7 +141,11 @@ public class TaskDispatcher {
 
         AreaUploadManager.INSTANCE.submitUploads();
 
+<<<<<<< HEAD
         return false;
+=======
+        return flag;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public void scheduleSectionUpdate(RenderSection section, EnumMap<TerrainRenderType, UploadBuffer> uploadBuffers) {
@@ -140,9 +155,24 @@ public class TaskDispatcher {
     }
 
     private void doSectionUpdate(RenderSection section, EnumMap<TerrainRenderType, UploadBuffer> uploadBuffers) {
+<<<<<<< HEAD
         DrawBuffers drawBuffers = section.getChunkArea().getDrawBuffers();
 
         uploadBuffers.forEach((key, value) -> drawBuffers.upload(section.xOffset(), section.yOffset(), section.zOffset(), value, section.getDrawParameters(key), key, section.index));
+=======
+        ChunkArea renderArea = section.getChunkArea();
+        DrawBuffers drawBuffers = renderArea.getDrawBuffers();
+
+        for(TerrainRenderType renderType : uploadBuffers.keySet()) {
+            UploadBuffer uploadBuffer = uploadBuffers.get(renderType);
+
+            if(uploadBuffer != null) {
+                drawBuffers.upload(section.xOffset(), section.yOffset(), section.zOffset(), uploadBuffer, section.getDrawParameters(renderType), renderType);
+            } else {
+                section.getDrawParameters(renderType).reset(renderArea, renderType);
+            }
+        }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public void scheduleUploadChunkLayer(RenderSection section, TerrainRenderType renderType, UploadBuffer uploadBuffer) {
@@ -152,9 +182,16 @@ public class TaskDispatcher {
     }
 
     private void doUploadChunkLayer(RenderSection section, TerrainRenderType renderType, UploadBuffer uploadBuffer) {
+<<<<<<< HEAD
         DrawBuffers drawBuffers = section.getChunkArea().getDrawBuffers();
 
         drawBuffers.upload(section.xOffset(), section.yOffset(), section.zOffset(), uploadBuffer, section.getDrawParameters(renderType), renderType, section.index);
+=======
+        ChunkArea renderArea = section.getChunkArea();
+        DrawBuffers drawBuffers = renderArea.getDrawBuffers();
+
+        drawBuffers.upload(section.xOffset(), section.yOffset(), section.zOffset(), uploadBuffer, section.getDrawParameters(renderType), renderType);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public int getIdleThreadsCount() {
@@ -187,7 +224,10 @@ public class TaskDispatcher {
         return String.format("iT: %d", this.idleThreads);
     }
 
+<<<<<<< HEAD
     public boolean hasUploads() {
         return !this.toUpload.isEmpty();
     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

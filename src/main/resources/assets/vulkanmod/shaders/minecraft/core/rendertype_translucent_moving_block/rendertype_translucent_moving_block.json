@@ -14,8 +14,13 @@
         "Normal"
     ],
     "samplers": [
+<<<<<<< HEAD
         { "name": "Sampler0", "binding": 2 },
         { "name": "Sampler2", "binding": 3 }
+=======
+        { "name": "Sampler0" },
+        { "name": "Sampler2" }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     ],
     "uniforms": [
         { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },

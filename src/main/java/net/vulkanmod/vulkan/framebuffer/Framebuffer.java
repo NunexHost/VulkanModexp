@@ -69,7 +69,11 @@ public class Framebuffer {
         if(this.hasColorAttachment) {
             this.colorAttachment = VulkanImage.builder(this.width, this.height)
                     .setFormat(format)
+<<<<<<< HEAD
                     .setUsage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)
+=======
+                    .setUsage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT)
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                     .setLinearFiltering(linearFiltering)
                     .setClamp(true)
                     .createVulkanImage();
@@ -77,7 +81,11 @@ public class Framebuffer {
 
         if(this.hasDepthAttachment) {
             this.depthAttachment = VulkanImage.createDepthImage(depthFormat, this.width, this.height,
+<<<<<<< HEAD
                     VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
+=======
+                    VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                     depthLinearFiltering, true);
 
             this.attachmentCount++;

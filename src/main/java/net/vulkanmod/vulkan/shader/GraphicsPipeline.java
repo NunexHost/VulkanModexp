@@ -14,9 +14,12 @@ import org.lwjgl.vulkan.*;
 
 import java.nio.ByteBuffer;
 import java.nio.LongBuffer;
+<<<<<<< HEAD
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 import static org.lwjgl.system.MemoryStack.stackGet;
 import static org.lwjgl.system.MemoryStack.stackPush;
@@ -28,11 +31,17 @@ public class GraphicsPipeline extends Pipeline {
     private final Object2LongMap<PipelineState> graphicsPipelines = new Object2LongOpenHashMap<>();
 
     private final VertexFormat vertexFormat;
+<<<<<<< HEAD
     private final EnumSet<SPIRVUtils.SpecConstant> specConstants;
 
     private long vertShaderModule = 0;
     private long fragShaderModule = 0;
     private PipelineState state;
+=======
+
+    private long vertShaderModule = 0;
+    private long fragShaderModule = 0;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     GraphicsPipeline(Builder builder) {
         super(builder.shaderPath);
@@ -41,16 +50,25 @@ public class GraphicsPipeline extends Pipeline {
         this.imageDescriptors = builder.imageDescriptors;
         this.pushConstants = builder.pushConstants;
         this.vertexFormat = builder.vertexFormat;
+<<<<<<< HEAD
         this.specConstants = builder.specConstants;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         createDescriptorSetLayout();
         createPipelineLayout();
         createShaderModules(builder.vertShaderSPIRV, builder.fragShaderSPIRV);
 
+<<<<<<< HEAD
         if(builder.renderPass != null) {
             graphicsPipelines.computeIfAbsent(PipelineState.DEFAULT,
                     this::createGraphicsPipeline);
         }
+=======
+        if(builder.renderPass != null)
+            graphicsPipelines.computeIfAbsent(PipelineState.DEFAULT,
+                    this::createGraphicsPipeline);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         createDescriptorSets(Renderer.getFramesNum());
 
@@ -62,13 +80,18 @@ public class GraphicsPipeline extends Pipeline {
     }
 
     private long createGraphicsPipeline(PipelineState state) {
+<<<<<<< HEAD
         this.state=state;
+=======
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         try(MemoryStack stack = stackPush()) {
 
             ByteBuffer entryPoint = stack.UTF8("main");
 
             VkPipelineShaderStageCreateInfo.Buffer shaderStages = VkPipelineShaderStageCreateInfo.calloc(2, stack);
 
+<<<<<<< HEAD
 
             VkSpecializationMapEntry.Buffer specEntrySet =  VkSpecializationMapEntry.malloc(specConstants.size(), stack);
 
@@ -79,13 +102,18 @@ public class GraphicsPipeline extends Pipeline {
                     .pData(enumSpecConstants(stack, specEntrySet)) : null;
 
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             VkPipelineShaderStageCreateInfo vertShaderStageInfo = shaderStages.get(0);
 
             vertShaderStageInfo.sType(VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO);
             vertShaderStageInfo.stage(VK_SHADER_STAGE_VERTEX_BIT);
             vertShaderStageInfo.module(vertShaderModule);
             vertShaderStageInfo.pName(entryPoint);
+<<<<<<< HEAD
             vertShaderStageInfo.pSpecializationInfo(specInfo);
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             VkPipelineShaderStageCreateInfo fragShaderStageInfo = shaderStages.get(1);
 
@@ -93,7 +121,10 @@ public class GraphicsPipeline extends Pipeline {
             fragShaderStageInfo.stage(VK_SHADER_STAGE_FRAGMENT_BIT);
             fragShaderStageInfo.module(fragShaderModule);
             fragShaderStageInfo.pName(entryPoint);
+<<<<<<< HEAD
             fragShaderStageInfo.pSpecializationInfo(specInfo);
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             // ===> VERTEX STAGE <===
 
@@ -222,6 +253,7 @@ public class GraphicsPipeline extends Pipeline {
         }
     }
 
+<<<<<<< HEAD
 
     private ByteBuffer enumSpecConstants(MemoryStack stack, VkSpecializationMapEntry.Buffer specEntrySet) {
         int i = 0;
@@ -246,6 +278,8 @@ public class GraphicsPipeline extends Pipeline {
         return stack.malloc(Integer.BYTES).putInt(0, i); //Malloc as Int is always Unaligned, so asIntBuffer doesn't help here afaik
     }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private void createShaderModules(SPIRVUtils.SPIRV vertSpirv, SPIRVUtils.SPIRV fragSpirv) {
         this.vertShaderModule = createShaderModule(vertSpirv.bytecode());
         this.fragShaderModule = createShaderModule(fragSpirv.bytecode());
@@ -295,11 +329,19 @@ public class GraphicsPipeline extends Pipeline {
 
                         offset += 12;
                     }
+<<<<<<< HEAD
                     else if (type == VertexFormatElement.Type.USHORT) {
                         posDescription.format(VK_FORMAT_R16G16B16_SFLOAT);
                         posDescription.offset(offset);
 
                         offset += 6;
+=======
+                    else if (type == VertexFormatElement.Type.SHORT) {
+                        posDescription.format(VK_FORMAT_R16G16B16A16_SINT);
+                        posDescription.offset(offset);
+
+                        offset += 8;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                     }
                     else if (type == VertexFormatElement.Type.BYTE) {
                         posDescription.format(VK_FORMAT_R8G8B8A8_SINT);
@@ -337,12 +379,15 @@ public class GraphicsPipeline extends Pipeline {
 
                         offset += 4;
                     }
+<<<<<<< HEAD
                     else if(type == VertexFormatElement.Type.UINT){
                         posDescription.format(VK_FORMAT_R32_UINT);
                         posDescription.offset(offset);
 
                         offset += 4;
                     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                     break;
 
                 case NORMAL:
@@ -386,6 +431,7 @@ public class GraphicsPipeline extends Pipeline {
         return attributeDescriptions.rewind();
     }
 
+<<<<<<< HEAD
     // SpecConstants can be set to be unique per Pipeline
     // but that would involve adding boilerplate to PipelineState
     // So to simplify the code, SpecConstants are limited to "Static Global State" rn
@@ -408,6 +454,8 @@ public class GraphicsPipeline extends Pipeline {
 //        Renderer.getInstance().addUsedPipeline(this);
     }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public void cleanUp() {
         vkDestroyShaderModule(DeviceManager.device, vertShaderModule, null);
         vkDestroyShaderModule(DeviceManager.device, fragShaderModule, null);

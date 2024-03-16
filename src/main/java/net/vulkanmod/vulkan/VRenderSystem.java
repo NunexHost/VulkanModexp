@@ -3,7 +3,16 @@ package net.vulkanmod.vulkan;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
+<<<<<<< HEAD
 import net.minecraft.client.Minecraft;
+=======
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.vulkan.shader.PipelineState;
 import net.vulkanmod.vulkan.util.ColorUtil;
 import net.vulkanmod.vulkan.util.MappedBuffer;
@@ -14,8 +23,11 @@ import org.lwjgl.system.MemoryUtil;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+<<<<<<< HEAD
 import static org.lwjgl.opengl.GL11C.GL_DEPTH_BUFFER_BIT;
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 public abstract class VRenderSystem {
     private static long window;
 
@@ -26,11 +38,15 @@ public abstract class VRenderSystem {
     public static int colorMask = PipelineState.ColorMask.getColorMask(true, true, true, true);
 
     public static boolean cull = true;
+<<<<<<< HEAD
     private static boolean canApplyClear = false;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     public static boolean logicOp = false;
     public static int logicOpFun = 0;
 
+<<<<<<< HEAD
 
     public static final float clearDepth = 1.0f;
     private static final float[] checkedClearColor = new float[4];
@@ -49,6 +65,24 @@ public abstract class VRenderSystem {
     public static final MappedBuffer shaderFogColor = new MappedBuffer(MemoryUtil.memAlloc(4 * 4));
 
     public static final MappedBuffer screenSize = new MappedBuffer(MemoryUtil.memAlloc(2 * 4));
+=======
+    public static final float clearDepth = 1.0f;
+    public static FloatBuffer clearColor = MemoryUtil.memAllocFloat(4);
+
+    public static MappedBuffer modelViewMatrix = new MappedBuffer(16 * 4);
+    public static MappedBuffer projectionMatrix = new MappedBuffer(16 * 4);
+    public static MappedBuffer TextureMatrix = new MappedBuffer(16 * 4);
+    public static MappedBuffer MVP = new MappedBuffer(16 * 4);
+
+    public static MappedBuffer ChunkOffset = new MappedBuffer(3 * 4);
+    public static MappedBuffer lightDirection0 = new MappedBuffer(3 * 4);
+    public static MappedBuffer lightDirection1 = new MappedBuffer(3 * 4);
+
+    public static MappedBuffer shaderColor = new MappedBuffer(4 * 4);
+    public static MappedBuffer shaderFogColor = new MappedBuffer(4 * 4);
+
+    public static MappedBuffer screenSize = new MappedBuffer(2 * 4);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     public static float alphaCutout = 0.0f;
 
@@ -60,6 +94,10 @@ public abstract class VRenderSystem {
 
         Vulkan.initVulkan(window);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public static MappedBuffer getScreenSize() {
         updateScreenSize();
         return screenSize;
@@ -76,6 +114,11 @@ public abstract class VRenderSystem {
         VRenderSystem.window = window;
     }
 
+<<<<<<< HEAD
+=======
+    public static ByteBuffer getChunkOffset() { return ChunkOffset.buffer; }
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public static int maxSupportedTextureSize() {
         return DeviceManager.deviceProperties.limits().maxImageDimension2D();
     }
@@ -87,11 +130,16 @@ public abstract class VRenderSystem {
     }
 
     public static void applyModelViewMatrix(Matrix4f mat) {
+<<<<<<< HEAD
         mat.get(modelViewMatrix.buffer().asFloatBuffer());
+=======
+        mat.get(modelViewMatrix.buffer.asFloatBuffer());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         //MemoryUtil.memPutFloat(MemoryUtil.memAddress(modelViewMatrix), 1);
     }
 
     public static void applyProjectionMatrix(Matrix4f mat) {
+<<<<<<< HEAD
         mat.get(projectionMatrix.buffer().asFloatBuffer());
     }
 
@@ -104,6 +152,20 @@ public abstract class VRenderSystem {
 
     public static void setTextureMatrix(Matrix4f mat) {
         mat.get(TextureMatrix.buffer().asFloatBuffer());
+=======
+        mat.get(projectionMatrix.buffer.asFloatBuffer());
+    }
+
+    public static void calculateMVP() {
+        org.joml.Matrix4f MV = new org.joml.Matrix4f(modelViewMatrix.buffer.asFloatBuffer());
+        org.joml.Matrix4f P = new org.joml.Matrix4f(projectionMatrix.buffer.asFloatBuffer());
+
+        P.mul(MV).get(MVP.buffer);
+    }
+
+    public static void setTextureMatrix(Matrix4f mat) {
+        mat.get(TextureMatrix.buffer.asFloatBuffer());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public static MappedBuffer getTextureMatrix() {
@@ -122,6 +184,16 @@ public abstract class VRenderSystem {
         return MVP;
     }
 
+<<<<<<< HEAD
+=======
+    public static void setChunkOffset(float f1, float f2, float f3) {
+        long ptr = ChunkOffset.ptr;
+        VUtil.UNSAFE.putFloat(ptr, f1);
+        VUtil.UNSAFE.putFloat(ptr + 4, f2);
+        VUtil.UNSAFE.putFloat(ptr + 8, f3);
+    }
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public static void setShaderColor(float f1, float f2, float f3, float f4) {
         ColorUtil.setRGBA_Buffer(shaderColor, f1, f2, f3, f4);
     }
@@ -138,6 +210,7 @@ public abstract class VRenderSystem {
         return shaderFogColor;
     }
 
+<<<<<<< HEAD
     public static void clearColor(float f0, float f1, float f2, float f3) {
         //set to true if different color
         if(!(canApplyClear = checkClearColor(f0, f1, f2, f3))) return;
@@ -157,6 +230,14 @@ public abstract class VRenderSystem {
         //Depth clears are much much faster than color clears
         Renderer.clearAttachments(canApplyClear ? v : GL_DEPTH_BUFFER_BIT); //Depth Only Clears needed to fix Chat + Command Elements
         canApplyClear=false;
+=======
+    public static void clearColor(float f1, float f2, float f3, float f4) {
+        ColorUtil.setRGBA_Buffer(clearColor, f1, f2, f3, f4);
+    }
+
+    public static void clear(int v) {
+        Renderer.clearAttachments(v);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     // Pipeline state

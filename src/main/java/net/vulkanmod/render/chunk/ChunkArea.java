@@ -1,13 +1,19 @@
 package net.vulkanmod.render.chunk;
 
 import net.minecraft.core.BlockPos;
+<<<<<<< HEAD
 import net.vulkanmod.render.chunk.util.StaticQueue;
 import net.vulkanmod.render.vertex.TerrainRenderType;
 import org.jetbrains.annotations.NotNull;
+=======
+import net.vulkanmod.render.chunk.util.ResettableQueue;
+import net.vulkanmod.render.chunk.util.StaticQueue;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import org.joml.FrustumIntersection;
 import org.joml.Vector3i;
 
 import java.util.Arrays;
+<<<<<<< HEAD
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -19,6 +25,24 @@ public record ChunkArea(int index, byte[] inFrustum, Vector3i position, DrawBuff
         for (TerrainRenderType renderType : TerrainRenderType.VALUES) {
             sectionQueue.put(renderType, new StaticQueue<>(512));
         }
+=======
+
+public class ChunkArea {
+    public final int index;
+    private final byte[] inFrustum = new byte[64];
+
+    final Vector3i position;
+
+    DrawBuffers drawBuffers;
+
+    //Help JIT optimisations by hardcoding the queue size to the max possible ChunkArea limit
+    final StaticQueue<RenderSection> sectionQueue = new StaticQueue<>(512);
+
+    public ChunkArea(int i, Vector3i origin, int minHeight) {
+        this.index = i;
+        this.position = origin;
+        this.drawBuffers = new DrawBuffers(i, origin, minHeight);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public void updateFrustum(VFrustum frustum) {
@@ -117,6 +141,7 @@ public record ChunkArea(int index, byte[] inFrustum, Vector3i position, DrawBuff
     }
 
 //    private void allocateDrawBuffers() {
+<<<<<<< HEAD
 //        this.drawBuffers = new DrawBuffers(this.index, this.position);
 //    }
 
@@ -128,6 +153,13 @@ public record ChunkArea(int index, byte[] inFrustum, Vector3i position, DrawBuff
 
     public void resetQueue() {
         this.sectionQueue.forEach((renderType, drawParameters) -> drawParameters.clear());
+=======
+//        this.drawBuffers.allocateBuffers();
+//    }
+
+    public void resetQueue() {
+        this.sectionQueue.clear();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public void setPosition(int x, int y, int z) {

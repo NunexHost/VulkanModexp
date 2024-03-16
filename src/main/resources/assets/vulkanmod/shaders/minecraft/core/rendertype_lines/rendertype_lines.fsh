@@ -10,6 +10,10 @@ vec4 linear_fog(vec4 inColor, float vertexDistance, float fogStart, float fogEnd
 }
 
 layout(binding = 1) uniform UBO{
+<<<<<<< HEAD
+=======
+    vec4 ColorModulator;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     vec4 FogColor;
     float FogStart;
     float FogEnd;
@@ -21,7 +25,12 @@ layout(location = 1) in float vertexDistance;
 layout(location = 0) out vec4 fragColor;
 
 void main() {
+<<<<<<< HEAD
     fragColor = linear_fog(vertexColor, vertexDistance, FogStart, FogEnd, FogColor);
+=======
+    vec4 color = vertexColor * ColorModulator;
+    fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, FogColor);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }
 
 /*

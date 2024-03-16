@@ -342,7 +342,10 @@ public class PipelineState {
                 case 516 -> VK_COMPARE_OP_GREATER;
                 case 518 -> VK_COMPARE_OP_GREATER_OR_EQUAL;
                 case 514 -> VK_COMPARE_OP_EQUAL;
+<<<<<<< HEAD
                 case 513 -> VK_COMPARE_OP_LESS;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 default -> throw new RuntimeException("unknown blend factor..");
 
 //                case 515 -> VK_COMPARE_OP_GREATER_OR_EQUAL;

@@ -9,7 +9,11 @@ layout(binding = 0) uniform UniformBufferObject {
    mat4 ModelViewMat;
 };
 
+<<<<<<< HEAD
 //layout(binding = 3) uniform sampler2D Sampler2;
+=======
+layout(binding = 3) uniform sampler2D Sampler2;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 layout(location = 0) out vec4 vertexColor;
 layout(location = 1) out vec2 texCoord0;

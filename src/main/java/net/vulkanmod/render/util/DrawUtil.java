@@ -4,6 +4,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.vulkanmod.vulkan.Renderer;
 import net.vulkanmod.vulkan.shader.GraphicsPipeline;
+<<<<<<< HEAD
+=======
+import net.vulkanmod.vulkan.shader.Pipeline;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.vulkan.texture.VTextureSelector;
 import net.vulkanmod.vulkan.texture.VulkanImage;
 import org.joml.Matrix4f;
@@ -47,7 +51,11 @@ public class DrawUtil {
 
     public static void drawFramebuffer(GraphicsPipeline pipeline, VulkanImage attachment) {
 
+<<<<<<< HEAD
        boolean shouldUpdate = Renderer.getInstance().bindGraphicsPipeline(pipeline);
+=======
+        Renderer.getInstance().bindGraphicsPipeline(pipeline);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         VTextureSelector.bindTexture(attachment);
 
@@ -59,7 +67,11 @@ public class DrawUtil {
         RenderSystem.applyModelViewMatrix();
         posestack.popPose();
 
+<<<<<<< HEAD
         Renderer.getInstance().uploadAndBindUBOs(pipeline, shouldUpdate);
+=======
+        Renderer.getInstance().uploadAndBindUBOs(pipeline);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         blitQuad(0.0D, 0.0D, 1.0D, 1.0D);
     }

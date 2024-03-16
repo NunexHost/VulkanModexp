@@ -5,7 +5,10 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.resources.ResourceLocation;
+<<<<<<< HEAD
 import net.vulkanmod.Initializer;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.render.texture.SpriteUtil;
 import net.vulkanmod.vulkan.DeviceManager;
 import net.vulkanmod.vulkan.Renderer;
@@ -30,7 +33,11 @@ public abstract class MTextureManager {
      */
     @Overwrite
     public void tick() {
+<<<<<<< HEAD
         if(Renderer.skipRendering|| !Initializer.CONFIG.animations)
+=======
+        if(Renderer.skipRendering)
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             return;
 
         //Debug D

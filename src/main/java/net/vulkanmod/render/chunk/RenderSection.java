@@ -36,7 +36,10 @@ public class RenderSection {
     private boolean completelyEmpty = true;
     private long visibility;
 
+<<<<<<< HEAD
     public final int index;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     int xOffset, yOffset, zOffset;
 
 //    private final DrawBuffers.DrawParameters[] drawParametersArray =
@@ -54,7 +57,10 @@ public class RenderSection {
 
 
     public RenderSection(int index, int x, int y, int z) {
+<<<<<<< HEAD
         this.index = index;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         this.xOffset = x;
         this.yOffset = y;
         this.zOffset = z;
@@ -74,7 +80,11 @@ public class RenderSection {
 
     }
 
+<<<<<<< HEAD
     public void setGraphInfo(@Nullable Direction from, byte step) {
+=======
+    public RenderSection setGraphInfo(@Nullable Direction from, byte step) {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         mainDir = from;
 
         sourceDirs = (byte) (from != null ? 1 << from.ordinal() : 0);
@@ -82,6 +92,10 @@ public class RenderSection {
         this.step = step;
         this.directions = 0;
         this.directionChanges = 0;
+<<<<<<< HEAD
+=======
+        return this;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public void addDir(Direction direction) {
@@ -119,7 +133,12 @@ public class RenderSection {
     }
 
     public void rebuildChunkAsync(TaskDispatcher dispatcher, RenderRegionCache renderRegionCache) {
+<<<<<<< HEAD
         dispatcher.schedule(this.createCompileTask(renderRegionCache));
+=======
+        ChunkTask.BuildTask chunkCompileTask = this.createCompileTask(renderRegionCache);
+        dispatcher.schedule(chunkCompileTask);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public void rebuildChunkSync(TaskDispatcher dispatcher, RenderRegionCache renderRegionCache) {
@@ -263,7 +282,11 @@ public class RenderSection {
 
     private void resetDrawParameters() {
         for(TerrainRenderType r : this.getCompiledSection().renderTypes) {
+<<<<<<< HEAD
             getDrawParameters(r).reset(this.chunkArea, r, this.index);
+=======
+            getDrawParameters(r).reset(this.chunkArea, r);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         }
     }
 
@@ -277,10 +300,18 @@ public class RenderSection {
         this.compileStatus.compiledSection = compiledSection;
     }
 
+<<<<<<< HEAD
     public void setLastFrame(short i) {
         boolean res = i == this.lastFrame ;
         if(!res)
             this.lastFrame = i;
+=======
+    public boolean setLastFrame(short i) {
+        boolean res = i == this.lastFrame ;
+        if(!res)
+            this.lastFrame = i;
+        return res;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public boolean setLastFrame2(short i) {

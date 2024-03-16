@@ -23,18 +23,29 @@ public class DeviceInfo {
     public static final String cpuInfo;
 
     final VkPhysicalDevice physicalDevice;
+<<<<<<< HEAD
     final VkPhysicalDeviceProperties2 properties;
+=======
+    final VkPhysicalDeviceProperties properties;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 
     private final int vendorId;
     public final String vendorIdString;
     public final String deviceName;
     public final String driverVersion;
+<<<<<<< HEAD
     public final String driverId;
     public final String vkDriverVersion;
     public final String vkInstanceLoaderVersion;
 
     public final VkPhysicalDeviceFeatures2 availableFeatures;
+=======
+    public final String vkVersion;
+
+    public final VkPhysicalDeviceFeatures2 availableFeatures;
+    public final VkPhysicalDeviceVulkan11Features availableFeatures11;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 //    public final VkPhysicalDeviceVulkan13Features availableFeatures13;
 //    public final boolean vulkan13Support;
@@ -49,6 +60,7 @@ public class DeviceInfo {
 
     public DeviceInfo(VkPhysicalDevice device) {
         this.physicalDevice = device;
+<<<<<<< HEAD
         try(MemoryStack stack = MemoryStack.stackPush()) {
             VkPhysicalDeviceVulkan12Properties vulkan12Properties = VkPhysicalDeviceVulkan12Properties.malloc(stack).sType$Default();
 
@@ -77,12 +89,33 @@ public class DeviceInfo {
             this.availableFeatures.pNext(availableFeatures11);
 
             //Vulkan 1.3
+=======
+
+        properties = VkPhysicalDeviceProperties.malloc();
+        vkGetPhysicalDeviceProperties(physicalDevice, properties);
+
+        this.vendorId = properties.vendorID();
+        this.vendorIdString = decodeVendor(properties.vendorID());
+        this.deviceName = properties.deviceNameString();
+        this.driverVersion = decodeDvrVersion(properties.driverVersion(), properties.vendorID());
+        this.vkVersion = decDefVersion(getVkVer());
+
+        this.availableFeatures = VkPhysicalDeviceFeatures2.calloc();
+        this.availableFeatures.sType$Default();
+
+        this.availableFeatures11 = VkPhysicalDeviceVulkan11Features.malloc();
+        this.availableFeatures11.sType$Default();
+        this.availableFeatures.pNext(this.availableFeatures11);
+
+        //Vulkan 1.3
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 //        this.availableFeatures13 = VkPhysicalDeviceVulkan13Features.malloc();
 //        this.availableFeatures13.sType$Default();
 //        this.availableFeatures11.pNext(this.availableFeatures13.address());
 //
 //        this.vulkan13Support = this.device.getCapabilities().apiVersion == VK_API_VERSION_1_3;
 
+<<<<<<< HEAD
             vkGetPhysicalDeviceFeatures2(this.physicalDevice, this.availableFeatures);
 
             if (this.availableFeatures.features().multiDrawIndirect() && availableFeatures11.shaderDrawParameters())
@@ -121,6 +154,14 @@ public class DeviceInfo {
                     default -> "N/A";
         };
     }
+=======
+        vkGetPhysicalDeviceFeatures2(this.physicalDevice, this.availableFeatures);
+
+        if(this.availableFeatures.features().multiDrawIndirect() && this.availableFeatures11.shaderDrawParameters())
+                this.drawIndirectSupported = true;
+
+    }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     private static String decodeVendor(int i) {
         return switch (i) {
@@ -160,12 +201,26 @@ public class DeviceInfo {
         return (v >>> 22 & 0x3FF) + "." + (v >>> 14 & 0xff) + "." + (v >>> 6 & 0xff) + "." + (v & 0xff);
     }
 
+<<<<<<< HEAD
     public static int getInstVkVer() {
         try(MemoryStack stack = stackPush())
         {
             var a = stack.mallocInt(1);
             vkEnumerateInstanceVersion(a);
             return a.get(0);
+=======
+    static int getVkVer() {
+        try(MemoryStack stack = MemoryStack.stackPush())
+        {
+            var a = stack.mallocInt(1);
+            vkEnumerateInstanceVersion(a);
+            int vkVer1 = a.get(0);
+            if(VK_VERSION_MINOR(vkVer1)<2)
+            {
+                throw new RuntimeException("Vulkan 1.2 not supported!: "+"Only Has: "+ decDefVersion(vkVer1));
+            }
+            return vkVer1;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         }
     }
 

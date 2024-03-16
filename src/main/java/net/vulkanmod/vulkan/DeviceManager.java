@@ -13,7 +13,11 @@ import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
+<<<<<<< HEAD
 import static net.vulkanmod.vulkan.queue.Queue.*;
+=======
+import static net.vulkanmod.vulkan.queue.Queue.findQueueFamilies;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import static net.vulkanmod.vulkan.util.VUtil.asPointerBuffer;
 import static org.lwjgl.glfw.GLFWVulkan.glfwGetRequiredInstanceExtensions;
 import static org.lwjgl.system.MemoryStack.stackGet;
@@ -36,6 +40,14 @@ public abstract class DeviceManager {
 
     public static SurfaceProperties surfaceProperties;
 
+<<<<<<< HEAD
+=======
+    static GraphicsQueue graphicsQueue;
+    static PresentQueue presentQueue;
+    static TransferQueue transferQueue;
+    static ComputeQueue computeQueue;
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     static void getAvailableDevices(VkInstance instance) {
         try(MemoryStack stack = stackPush()) {
             suitableDevices = new ObjectArrayList<>();
@@ -84,7 +96,11 @@ public abstract class DeviceManager {
             }
 
             physicalDevice = deviceInfo.physicalDevice;
+<<<<<<< HEAD
             QueueFamilyIndices.findQueueFamilies(physicalDevice);
+=======
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             //Get device properties
             deviceProperties = VkPhysicalDeviceProperties.malloc();
             vkGetPhysicalDeviceProperties(physicalDevice, deviceProperties);
@@ -106,7 +122,11 @@ public abstract class DeviceManager {
         for(DeviceInfo device : suitableDevices) {
             currentDevice = device;
 
+<<<<<<< HEAD
             int deviceType = device.properties.properties().deviceType();
+=======
+            int deviceType = device.properties.deviceType();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             if(deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
                 flag = true;
                 break;
@@ -135,7 +155,13 @@ public abstract class DeviceManager {
 
         try(MemoryStack stack = stackPush()) {
 
+<<<<<<< HEAD
             int[] uniqueQueueFamilies = QueueFamilyIndices.unique();
+=======
+            net.vulkanmod.vulkan.queue.Queue.QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+
+            int[] uniqueQueueFamilies = indices.unique();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             VkDeviceQueueCreateInfo.Buffer queueCreateInfos = VkDeviceQueueCreateInfo.calloc(uniqueQueueFamilies.length, stack);
 
@@ -145,6 +171,7 @@ public abstract class DeviceManager {
                 queueCreateInfo.queueFamilyIndex(uniqueQueueFamilies[i]);
                 queueCreateInfo.pQueuePriorities(stack.floats(1.0f));
             }
+<<<<<<< HEAD
             VkPhysicalDeviceVulkan11Features deviceVulkan11Features = VkPhysicalDeviceVulkan11Features.calloc(stack).sType$Default();
             VkPhysicalDeviceVulkan12Features deviceVulkan12Features = VkPhysicalDeviceVulkan12Features.calloc(stack).sType$Default();
 
@@ -165,6 +192,58 @@ public abstract class DeviceManager {
             createInfo.pNext(deviceFeatures);
             createInfo.ppEnabledExtensionNames(asPointerBuffer(Vulkan.REQUIRED_EXTENSION));
             createInfo.ppEnabledLayerNames(Vulkan.ENABLE_VALIDATION_LAYERS ? asPointerBuffer(Vulkan.VALIDATION_LAYERS) : null);
+=======
+
+            VkPhysicalDeviceFeatures2 deviceFeatures = VkPhysicalDeviceFeatures2.calloc(stack);
+            deviceFeatures.sType$Default();
+
+            //TODO indirect draw option disabled in case it is not supported
+            if(deviceInfo.availableFeatures.features().samplerAnisotropy())
+                deviceFeatures.features().samplerAnisotropy(true);
+            if(deviceInfo.availableFeatures.features().logicOp())
+                deviceFeatures.features().logicOp(true);
+
+            VkPhysicalDeviceVulkan11Features deviceVulkan11Features = VkPhysicalDeviceVulkan11Features.calloc(stack);
+            deviceVulkan11Features.sType$Default();
+
+            if(deviceInfo.isDrawIndirectSupported()) {
+                deviceFeatures.features().multiDrawIndirect(true);
+                deviceVulkan11Features.shaderDrawParameters(true);
+            }
+
+            VkDeviceCreateInfo createInfo = VkDeviceCreateInfo.calloc(stack);
+
+            createInfo.sType(VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO);
+            createInfo.pQueueCreateInfos(queueCreateInfos);
+            // queueCreateInfoCount is automatically set
+
+            createInfo.pEnabledFeatures(deviceFeatures.features());
+
+            VkPhysicalDeviceDynamicRenderingFeaturesKHR dynamicRenderingFeaturesKHR = VkPhysicalDeviceDynamicRenderingFeaturesKHR.calloc(stack);
+            dynamicRenderingFeaturesKHR.sType$Default();
+            dynamicRenderingFeaturesKHR.dynamicRendering(true);
+
+            createInfo.pNext(deviceVulkan11Features);
+            deviceVulkan11Features.pNext(dynamicRenderingFeaturesKHR.address());
+
+            //Vulkan 1.3 dynamic rendering
+//            VkPhysicalDeviceVulkan13Features deviceVulkan13Features = VkPhysicalDeviceVulkan13Features.calloc(stack);
+//            deviceVulkan13Features.sType$Default();
+//            if(!deviceInfo.availableFeatures13.dynamicRendering())
+//                throw new RuntimeException("Device does not support dynamic rendering feature.");
+//
+//            deviceVulkan13Features.dynamicRendering(true);
+//            createInfo.pNext(deviceVulkan13Features);
+//            deviceVulkan13Features.pNext(deviceVulkan11Features.address());
+
+            createInfo.ppEnabledExtensionNames(asPointerBuffer(Vulkan.REQUIRED_EXTENSION));
+
+//            Configuration.DEBUG_FUNCTIONS.set(true);
+
+            if(Vulkan.ENABLE_VALIDATION_LAYERS) {
+                createInfo.ppEnabledLayerNames(asPointerBuffer(Vulkan.VALIDATION_LAYERS));
+            }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             PointerBuffer pDevice = stack.pointers(VK_NULL_HANDLE);
 
@@ -185,6 +264,14 @@ public abstract class DeviceManager {
 //            vkGetDeviceQueue(device, indices.transferFamily, 0, pQueue);
 //            transferQueue = new VkQueue(pQueue.get(0), device);
 
+<<<<<<< HEAD
+=======
+            graphicsQueue = new GraphicsQueue(stack, indices.graphicsFamily);
+            transferQueue = new TransferQueue(stack, indices.transferFamily);
+            presentQueue = new PresentQueue(stack, indices.presentFamily);
+            computeQueue = new ComputeQueue(stack, indices.computeFamily);
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         }
     }
 
@@ -210,6 +297,11 @@ public abstract class DeviceManager {
 
     private static boolean isDeviceSuitable(VkPhysicalDevice device) {
 
+<<<<<<< HEAD
+=======
+        Queue.QueueFamilyIndices indices = findQueueFamilies(device);
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         boolean extensionsSupported = checkDeviceExtensionSupport(device);
         boolean swapChainAdequate = false;
 
@@ -225,9 +317,15 @@ public abstract class DeviceManager {
             VkPhysicalDeviceFeatures supportedFeatures = VkPhysicalDeviceFeatures.malloc(stack);
             vkGetPhysicalDeviceFeatures(device, supportedFeatures);
             anisotropicFilterSupported = supportedFeatures.samplerAnisotropy();
+<<<<<<< HEAD
             return QueueFamilyIndices.hasQueues(device, stack) && extensionsSupported && swapChainAdequate;
         }
 
+=======
+        }
+
+        return indices.isSuitable() && extensionsSupported && swapChainAdequate;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     private static boolean checkDeviceExtensionSupport(VkPhysicalDevice device) {
@@ -290,13 +388,20 @@ public abstract class DeviceManager {
     }
 
     public static void destroy() {
+<<<<<<< HEAD
         GraphicsQueue.cleanUp();
         TransferQueue.cleanUp();
         PresentQueue.cleanUp();
+=======
+        graphicsQueue.cleanUp();
+        transferQueue.cleanUp();
+        computeQueue.cleanUp();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         vkDestroyDevice(device, null);
     }
 
+<<<<<<< HEAD
     public static Queue getGraphicsQueue() {
         return GraphicsQueue;
     }
@@ -312,6 +417,23 @@ public abstract class DeviceManager {
 //    public static ComputeQueue getComputeQueue() {
 //        return computeQueue;
 //    }
+=======
+    public static GraphicsQueue getGraphicsQueue() {
+        return graphicsQueue;
+    }
+
+    public static PresentQueue getPresentQueue() {
+        return presentQueue;
+    }
+
+    public static TransferQueue getTransferQueue() {
+        return transferQueue;
+    }
+
+    public static ComputeQueue getComputeQueue() {
+        return computeQueue;
+    }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     public static SurfaceProperties querySurfaceProperties(VkPhysicalDevice device, MemoryStack stack) {
 

@@ -2,6 +2,10 @@ package net.vulkanmod.vulkan.texture;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import net.vulkanmod.vulkan.*;
+<<<<<<< HEAD
+=======
+import net.vulkanmod.vulkan.framebuffer.SwapChain;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.vulkan.memory.MemoryManager;
 import net.vulkanmod.vulkan.memory.StagingBuffer;
 import net.vulkanmod.vulkan.queue.CommandPool;
@@ -16,7 +20,10 @@ import java.util.Arrays;
 
 import static net.vulkanmod.vulkan.texture.SamplerManager.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
+<<<<<<< HEAD
 import static org.lwjgl.vulkan.KHRSwapchain.*;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import static org.lwjgl.vulkan.VK10.*;
 
 public class VulkanImage {
@@ -72,7 +79,11 @@ public class VulkanImage {
         image.createImage(builder.mipLevels, builder.width, builder.height, builder.format, builder.usage);
         image.mainImageView = createImageView(image.id, builder.format, image.aspect, builder.mipLevels);
 
+<<<<<<< HEAD
         image.sampler = VUtil.checkUsage(builder.usage, VK_IMAGE_USAGE_SAMPLED_BIT) ? SamplerManager.getTextureSampler(builder.mipLevels, builder.samplerFlags) : VK_NULL_HANDLE;
+=======
+        image.sampler = SamplerManager.getTextureSampler(builder.mipLevels, builder.samplerFlags);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         if(builder.levelViews) {
             image.levelImageViews = new long[builder.mipLevels];
@@ -256,7 +267,11 @@ public class VulkanImage {
         int sourceStage, srcAccessMask, destinationStage, dstAccessMask = 0;
 
         switch (image.currentLayout) {
+<<<<<<< HEAD
             case VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR -> {
+=======
+            case VK_IMAGE_LAYOUT_UNDEFINED -> {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 srcAccessMask = 0;
                 sourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
             }
@@ -304,9 +319,12 @@ public class VulkanImage {
                 dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
                 destinationStage = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
             }
+<<<<<<< HEAD
             case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR -> {
                 destinationStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
             }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             default -> throw new RuntimeException("Unexpected value:" + newLayout);
         }
 

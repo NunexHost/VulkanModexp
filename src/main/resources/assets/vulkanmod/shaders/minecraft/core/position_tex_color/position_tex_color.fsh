@@ -16,5 +16,9 @@ void main() {
     if (color.a < 0.1) {
         discard;
     }
+<<<<<<< HEAD
     fragColor = color;
+=======
+    fragColor = color * ColorModulator;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

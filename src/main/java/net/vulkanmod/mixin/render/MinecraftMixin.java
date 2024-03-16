@@ -1,6 +1,10 @@
 package net.vulkanmod.mixin.render;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+<<<<<<< HEAD
+=======
+import com.mojang.blaze3d.platform.Window;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.systems.TimerQuery;
 import net.minecraft.Util;
@@ -54,7 +58,11 @@ public class MinecraftMixin {
 
     @Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V"))
     private void redirectMainTarget1(RenderTarget instance, boolean bl) {
+<<<<<<< HEAD
         Renderer.getInstance().getMainPass().mainTargetBindWrite(true);
+=======
+        Renderer.getInstance().getMainPass().mainTargetBindWrite();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     @Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;unbindWrite()V"))

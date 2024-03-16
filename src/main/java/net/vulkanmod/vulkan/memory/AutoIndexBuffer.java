@@ -37,7 +37,11 @@ public class AutoIndexBuffer {
             default -> throw new RuntimeException("unknown drawType");
         }
 
+<<<<<<< HEAD
         indexBuffer = new IndexBuffer(size, MemoryType.GPU_MEM);
+=======
+        indexBuffer = new IndexBuffer(size, MemoryTypes.GPU_MEM);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         indexBuffer.copyBuffer(buffer);
 
         MemoryUtil.memFree(buffer);

@@ -8,6 +8,13 @@ public class IndexBuffer extends Buffer {
 
 //    public IndexType indexType = IndexType.SHORT;
 
+<<<<<<< HEAD
+=======
+    public IndexBuffer(int size) {
+        this(size, MemoryTypes.HOST_MEM);
+    }
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public IndexBuffer(int size, MemoryType type) {
         super(VK_BUFFER_USAGE_INDEX_BUFFER_BIT, type);
         this.createBuffer(size);
@@ -33,10 +40,17 @@ public class IndexBuffer extends Buffer {
     }
 
     private void resizeBuffer(int newSize) {
+<<<<<<< HEAD
         this.type.freeBuffer(this);
         this.createBuffer(newSize);
 
 //        System.out.println("resized vertexBuffer to: " + newSize);
+=======
+        MemoryManager.getInstance().addToFreeable(this);
+        this.createBuffer(newSize);
+
+        System.out.println("resized vertexBuffer to: " + newSize);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public enum IndexType {

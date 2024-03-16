@@ -3,16 +3,24 @@
 layout(location = 0) in vec3 Position;
 layout(location = 1) in vec4 Color;
 layout(location = 2) in vec2 UV0;
+<<<<<<< HEAD
 //layout(location = 3) in ivec2 UV2;
 
 //TODO: Fix VertexFormats w/ unused Padding/Attributes
+=======
+layout(location = 3) in ivec2 UV2;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 layout(binding = 0) uniform UniformBufferObject {
    mat4 MVP;
    mat4 ModelViewMat;
 };
 
+<<<<<<< HEAD
 
+=======
+layout(binding = 3) uniform sampler2D Sampler2;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 layout(location = 0) out vec4 vertexColor;
 layout(location = 1) out vec2 texCoord0;
@@ -22,7 +30,11 @@ void main() {
     gl_Position = MVP * vec4(Position, 1.0);
 
     vertexDistance = length((ModelViewMat * vec4(Position, 1.0)).xyz);
+<<<<<<< HEAD
     //vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
+=======
+    vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     vertexColor = Color;
     texCoord0 = UV0;
 }

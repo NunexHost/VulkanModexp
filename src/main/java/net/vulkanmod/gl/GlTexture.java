@@ -91,7 +91,11 @@ public class GlTexture {
 
     public static void texParameteri(int target, int pName, int param) {
         if(target != GL11.GL_TEXTURE_2D)
+<<<<<<< HEAD
             throw new UnsupportedOperationException();
+=======
+            throw new UnsupportedOperationException("target != GL_TEXTURE_2D not supported");
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         switch (pName) {
             case GL30.GL_TEXTURE_MAX_LEVEL -> boundTexture.setMaxLevel(param);
@@ -109,7 +113,14 @@ public class GlTexture {
     }
 
     public static int getTexLevelParameter(int target, int level, int pName) {
+<<<<<<< HEAD
         if(boundTexture == null || target == GL11.GL_TEXTURE_2D)
+=======
+        if(target != GL11.GL_TEXTURE_2D)
+            throw new UnsupportedOperationException("target != GL_TEXTURE_2D not supported");
+
+        if(boundTexture == null)
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             return -1;
 
         return switch (pName) {
@@ -123,7 +134,11 @@ public class GlTexture {
 
     public static void generateMipmap(int target) {
         if(target != GL11.GL_TEXTURE_2D)
+<<<<<<< HEAD
             throw new UnsupportedOperationException();
+=======
+            throw new UnsupportedOperationException("target != GL_TEXTURE_2D not supported");
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         boundTexture.generateMipmaps();
     }
@@ -178,7 +193,11 @@ public class GlTexture {
         if(VulkanImage.isDepthFormat(vkFormat))
             this.vulkanImage = VulkanImage.createDepthImage(vkFormat,
                     width, height,
+<<<<<<< HEAD
                     VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
+=======
+                    VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                     false, true);
         else
             this.vulkanImage = new VulkanImage.Builder(width, height)

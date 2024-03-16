@@ -11,6 +11,10 @@ import net.vulkanmod.vulkan.Renderer;
 import net.vulkanmod.vulkan.VRenderSystem;
 import net.vulkanmod.vulkan.memory.*;
 import net.vulkanmod.vulkan.shader.GraphicsPipeline;
+<<<<<<< HEAD
+=======
+import net.vulkanmod.vulkan.shader.Pipeline;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import org.joml.Matrix4f;
 
 import java.nio.ByteBuffer;
@@ -49,7 +53,11 @@ public class VBO {
             if(vertexBuffer != null)
                 this.vertexBuffer.freeBuffer();
 
+<<<<<<< HEAD
             this.vertexBuffer = new VertexBuffer(data.remaining(), MemoryType.GPU_MEM);
+=======
+            this.vertexBuffer = new VertexBuffer(data.remaining(), MemoryTypes.GPU_MEM);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             vertexBuffer.copyToVertexBuffer(parameters.format().getVertexSize(), parameters.vertexCount(), data);
 
         }
@@ -87,7 +95,11 @@ public class VBO {
         else {
             if(indexBuffer != null)
                 this.indexBuffer.freeBuffer();
+<<<<<<< HEAD
             this.indexBuffer = new IndexBuffer(data.remaining(), MemoryType.GPU_MEM);
+=======
+            this.indexBuffer = new IndexBuffer(data.remaining(), MemoryTypes.GPU_MEM);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 //            this.indexBuffer = new AsyncIndexBuffer(data.remaining());
             indexBuffer.copyBuffer(data);
         }
@@ -112,10 +124,15 @@ public class VBO {
             VRenderSystem.applyMVP(MV, P);
 
             Renderer renderer = Renderer.getInstance();
+<<<<<<< HEAD
             boolean shouldUpdate = (renderer.bindGraphicsPipeline(pipeline));
             {
                 renderer.uploadAndBindUBOs(pipeline, shouldUpdate);
             }
+=======
+            renderer.bindGraphicsPipeline(pipeline);
+            renderer.uploadAndBindUBOs(pipeline);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             if(indexBuffer != null)
                 Renderer.getDrawer().drawIndexed(vertexBuffer, indexBuffer, indexCount);

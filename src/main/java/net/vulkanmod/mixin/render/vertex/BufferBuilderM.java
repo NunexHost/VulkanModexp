@@ -43,8 +43,11 @@ public abstract class BufferBuilderM extends DefaultedVertexConsumer
     private long ptr;
     private int offset;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     @Inject(method = "<init>", at = @At("RETURN"))
     private void setPtrC(int initialCapacity, CallbackInfo ci) {
         this.bufferPtr = MemoryUtil.memAddress0(this.buffer);
@@ -90,7 +93,11 @@ public abstract class BufferBuilderM extends DefaultedVertexConsumer
 
     }
 
+<<<<<<< HEAD
     public void vulkanMod$vertex(float x, float y, float z, float u, float v, int packedColor, int light) {
+=======
+    public void vertex(float x, float y, float z, float u, float v, int packedColor, int light) {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         this.ptr = this.nextElementPtr();
 
         MemoryUtil.memPutFloat(ptr + 0, x);
@@ -108,6 +115,7 @@ public abstract class BufferBuilderM extends DefaultedVertexConsumer
         this.endVertex();
 
     }
+<<<<<<< HEAD
     public void vulkanMod$vertex2(float x, float y, float z, int packedColor, float u, float v, int light) {
         this.ptr = this.nextElementPtr();
 
@@ -126,6 +134,8 @@ public abstract class BufferBuilderM extends DefaultedVertexConsumer
         this.endVertex();
 
     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     public void position(float x, float y, float z) {
         MemoryUtil.memPutFloat(ptr + 0, x);

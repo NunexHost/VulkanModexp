@@ -142,7 +142,11 @@ public class GlRenderbuffer {
         if(VulkanImage.isDepthFormat(vkFormat))
             this.vulkanImage = VulkanImage.createDepthImage(vkFormat,
                     width, height,
+<<<<<<< HEAD
                     VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
+=======
+                    VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                     false, true);
         else
             this.vulkanImage = new VulkanImage.Builder(width, height)

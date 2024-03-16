@@ -1,14 +1,23 @@
 #version 450
 
 layout(binding = 2) uniform sampler2D Sampler0;
+<<<<<<< HEAD
 //layout(binding = 3) uniform sampler2D Sampler2;
+=======
+layout(binding = 3) uniform sampler2D Sampler2;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 layout(binding = 1) uniform UBO{
     vec4 ColorModulator;
 };
 
 layout(location = 0) in vec4 vertexColor;
+<<<<<<< HEAD
 layout(location = 1) in vec2 texCoord0;
+=======
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec2 texCoord0;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 layout(location = 0) out vec4 fragColor;
 

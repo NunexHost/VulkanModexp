@@ -57,6 +57,13 @@ public class ResettableQueue<T> implements Iterable<T> {
         return limit;
     }
 
+<<<<<<< HEAD
+=======
+    public void rewind() {
+        this.position = 0;
+    }
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public void clear() {
         this.position = 0;
         this.limit = 0;
@@ -106,6 +113,7 @@ public class ResettableQueue<T> implements Iterable<T> {
         }
 
     }
+<<<<<<< HEAD
 
     public int capacity() {
         return capacity;
@@ -124,4 +132,6 @@ public class ResettableQueue<T> implements Iterable<T> {
 
         System.arraycopy(oldQueue, 0, this.queue, 0, i);
     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

@@ -14,6 +14,7 @@ import org.lwjgl.vulkan.VkViewport;
 import static org.lwjgl.vulkan.VK10.*;
 
 public class LegacyMainPass implements MainPass {
+<<<<<<< HEAD
     public static final LegacyMainPass PASS = new LegacyMainPass();
 
     @Override
@@ -22,6 +23,42 @@ public class LegacyMainPass implements MainPass {
         {
             SwapChain swapChain = Vulkan.getSwapChain();
 //            swapChain.colorAttachmentLayout(stack, commandBuffer, Renderer.getCurrentImage());
+=======
+    public static LegacyMainPass PASS = new LegacyMainPass();
+
+    private RenderTarget mainTarget;
+
+    LegacyMainPass() {
+        this.mainTarget = Minecraft.getInstance().getMainRenderTarget();
+    }
+
+    @Override
+    public void begin(VkCommandBuffer commandBuffer, MemoryStack stack) {
+    }
+
+    @Override
+    public void mainTargetBindWrite() {
+        RenderTarget mainTarget = Minecraft.getInstance().getMainRenderTarget();
+        mainTarget.bindWrite(true);
+    }
+
+    @Override
+    public void mainTargetUnbindWrite() {
+        RenderTarget mainTarget = Minecraft.getInstance().getMainRenderTarget();
+        mainTarget.unbindWrite();
+    }
+
+    @Override
+    public void end(VkCommandBuffer commandBuffer) {
+        try(MemoryStack stack = MemoryStack.stackPush()) {
+            Renderer.getInstance().endRenderPass(commandBuffer);
+
+            RenderTarget mainTarget = Minecraft.getInstance().getMainRenderTarget();
+            mainTarget.bindRead();
+
+            SwapChain swapChain = Vulkan.getSwapChain();
+            swapChain.colorAttachmentLayout(stack, commandBuffer, Renderer.getCurrentImage());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             swapChain.beginRenderPass(commandBuffer, stack);
             Renderer.getInstance().setBoundFramebuffer(swapChain);
@@ -31,6 +68,7 @@ public class LegacyMainPass implements MainPass {
 
             VkRect2D.Buffer pScissor = swapChain.scissor(stack);
             vkCmdSetScissor(commandBuffer, 0, pScissor);
+<<<<<<< HEAD
         }
     }
 
@@ -75,6 +113,11 @@ public class LegacyMainPass implements MainPass {
                 VRenderSystem.disableBlend();
                 Minecraft.getInstance().getMainRenderTarget().blitToScreen(swapChain.getWidth(), swapChain.getHeight());
             }
+=======
+
+            VRenderSystem.disableBlend();
+            Minecraft.getInstance().getMainRenderTarget().blitToScreen(swapChain.getWidth(), swapChain.getHeight());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         }
 
         Renderer.getInstance().endRenderPass(commandBuffer);

@@ -38,6 +38,10 @@ import java.io.Reader;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+<<<<<<< HEAD
+=======
+import java.util.Iterator;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import java.util.List;
 import java.util.Map;
 import java.util.function.IntSupplier;
@@ -179,9 +183,15 @@ public class EffectInstanceM {
         this.blend.apply();
 
         Renderer renderer = Renderer.getInstance();
+<<<<<<< HEAD
         boolean shouldUpdate = false;
         if (this.pipeline != lastPipeline) {
             shouldUpdate = renderer.bindGraphicsPipeline(pipeline);
+=======
+
+        if (this.pipeline != lastPipeline) {
+            renderer.bindGraphicsPipeline(pipeline);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             lastPipeline = this.pipeline;
         }
 
@@ -202,7 +212,11 @@ public class EffectInstanceM {
             uniform.upload();
         }
 
+<<<<<<< HEAD
         renderer.uploadAndBindUBOs(pipeline, shouldUpdate);
+=======
+        renderer.uploadAndBindUBOs(pipeline);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     }
 

@@ -47,7 +47,11 @@ public abstract class ImageUtil {
             PointerBuffer pStagingAllocation = stack.pointers(0L);
             MemoryManager.getInstance().createBuffer(imageSize,
                     VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+<<<<<<< HEAD
                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT, // | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+=======
+                    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT,
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                     pStagingBuffer,
                     pStagingAllocation);
 

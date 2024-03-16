@@ -2,6 +2,7 @@ package net.vulkanmod.mixin.render;
 
 import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.pipeline.RenderTarget;
+<<<<<<< HEAD
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -22,19 +23,31 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.vulkanmod.interfaces.ExtendedVertexBuilder;
 import net.vulkanmod.vulkan.util.ColorUtil;
+=======
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.PostChain;
+import net.minecraft.resources.ResourceLocation;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+<<<<<<< HEAD
 import org.spongepowered.asm.mixin.injection.At;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.io.IOException;
 
+<<<<<<< HEAD
 import static net.minecraft.world.level.biome.Biome.Precipitation.*;
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
 
@@ -50,6 +63,7 @@ public abstract class LevelRendererMixin {
 //     * @author
 //     */
 //    @Overwrite
+<<<<<<< HEAD
 
     @Shadow private int ticks;
     @Shadow @Final private float[] rainSizeX;
@@ -198,6 +212,8 @@ public abstract class LevelRendererMixin {
         return instance.getRenderDistance()*4F;
     }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 //    public void initOutline() {
 //        if (this.entityEffect != null) {
 //            this.entityEffect.close();
@@ -220,6 +236,7 @@ public abstract class LevelRendererMixin {
 ////        }
 //    }
 
+<<<<<<< HEAD
 //}
 
 //TODO: Fix Mojang splash colour from causing screen flashing red when entering world
@@ -230,3 +247,6 @@ public abstract class LevelRendererMixin {
     private void redirectClear(RenderTarget instance, boolean bl) {}
 }
 
+=======
+}
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74

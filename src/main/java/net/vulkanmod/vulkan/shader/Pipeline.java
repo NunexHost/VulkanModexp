@@ -88,25 +88,41 @@ public abstract class Pipeline {
             int bindingsSize = this.buffers.size() + imageDescriptors.size();
 
             VkDescriptorSetLayoutBinding.Buffer bindings = VkDescriptorSetLayoutBinding.calloc(bindingsSize, stack);
+<<<<<<< HEAD
             int i = 0;
             for(UBO ubo : this.buffers) {
                 VkDescriptorSetLayoutBinding uboLayoutBinding = bindings.get(i);
+=======
+
+            for(UBO ubo : this.buffers) {
+                VkDescriptorSetLayoutBinding uboLayoutBinding = bindings.get(ubo.getBinding());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 uboLayoutBinding.binding(ubo.getBinding());
                 uboLayoutBinding.descriptorCount(1);
                 uboLayoutBinding.descriptorType(ubo.getType());
                 uboLayoutBinding.pImmutableSamplers(null);
                 uboLayoutBinding.stageFlags(ubo.getStages());
+<<<<<<< HEAD
                 i++;
             }
 
             for(ImageDescriptor imageDescriptor : this.imageDescriptors) {
                 VkDescriptorSetLayoutBinding samplerLayoutBinding = bindings.get(i);
+=======
+            }
+
+            for(ImageDescriptor imageDescriptor : this.imageDescriptors) {
+                VkDescriptorSetLayoutBinding samplerLayoutBinding = bindings.get(imageDescriptor.getBinding());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 samplerLayoutBinding.binding(imageDescriptor.getBinding());
                 samplerLayoutBinding.descriptorCount(1);
                 samplerLayoutBinding.descriptorType(imageDescriptor.getType());
                 samplerLayoutBinding.pImmutableSamplers(null);
                 samplerLayoutBinding.stageFlags(imageDescriptor.getStages());
+<<<<<<< HEAD
                 i++;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             }
 
             VkDescriptorSetLayoutCreateInfo layoutInfo = VkDescriptorSetLayoutCreateInfo.calloc(stack);
@@ -116,7 +132,11 @@ public abstract class Pipeline {
             LongBuffer pDescriptorSetLayout = stack.mallocLong(1);
 
             if(vkCreateDescriptorSetLayout(DeviceManager.device, layoutInfo, null, pDescriptorSetLayout) != VK_SUCCESS) {
+<<<<<<< HEAD
                 throw new RuntimeException("Failed to create descriptor set layout"+this.name);
+=======
+                throw new RuntimeException("Failed to create descriptor set layout");
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             }
 
             this.descriptorSetLayout = pDescriptorSetLayout.get(0);
@@ -187,6 +207,7 @@ public abstract class Pipeline {
         return imageDescriptors;
     }
 
+<<<<<<< HEAD
     public void bindDescriptorSets(VkCommandBuffer commandBuffer, int frame, boolean shouldUpdate) {
         UniformBuffers uniformBuffers = Renderer.getDrawer().getUniformBuffers();
         this.descriptorSets[frame].bindSets(commandBuffer, uniformBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS, shouldUpdate);
@@ -194,6 +215,15 @@ public abstract class Pipeline {
 
     public void bindDescriptorSets(VkCommandBuffer commandBuffer, UniformBuffers uniformBuffers, int frame, boolean shouldUpdate) {
         this.descriptorSets[frame].bindSets(commandBuffer, uniformBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS, shouldUpdate);
+=======
+    public void bindDescriptorSets(VkCommandBuffer commandBuffer, int frame) {
+        UniformBuffers uniformBuffers = Renderer.getDrawer().getUniformBuffers();
+        this.descriptorSets[frame].bindSets(commandBuffer, uniformBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS);
+    }
+
+    public void bindDescriptorSets(VkCommandBuffer commandBuffer, UniformBuffers uniformBuffers, int frame) {
+        this.descriptorSets[frame].bindSets(commandBuffer, uniformBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     static long createShaderModule(ByteBuffer spirvCode) {
@@ -238,6 +268,7 @@ public abstract class Pipeline {
             }
         }
 
+<<<<<<< HEAD
         protected void bindSets(VkCommandBuffer commandBuffer, UniformBuffers uniformBuffers, int bindPoint, boolean pipelineUpdate) {
             try(MemoryStack stack = stackPush()) {
 
@@ -253,12 +284,26 @@ public abstract class Pipeline {
                     vkCmdBindDescriptorSets(commandBuffer, bindPoint, pipelineLayout,
                         0, stack.longs(currentSet), dynamicOffsets);
 
+=======
+        protected void bindSets(VkCommandBuffer commandBuffer, UniformBuffers uniformBuffers, int bindPoint) {
+            try(MemoryStack stack = stackPush()) {
+
+                this.updateUniforms(uniformBuffers);
+                this.updateDescriptorSet(stack, uniformBuffers);
+
+                vkCmdBindDescriptorSets(commandBuffer, bindPoint, pipelineLayout,
+                        0, stack.longs(currentSet), dynamicOffsets);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             }
         }
 
         private void updateUniforms(UniformBuffers uniformBuffers) {
             int currentOffset = uniformBuffers.getUsedBytes();
+<<<<<<< HEAD
             //TODO: Might be possible to replace w/ BaseDeviceAddress + Pointer Arithmetic
+=======
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             int i = 0;
             for(UBO ubo : buffers) {
 //                ubo.update();
@@ -281,6 +326,30 @@ public abstract class Pipeline {
 
         private void updateDescriptorSet(MemoryStack stack, UniformBuffers uniformBuffers) {
 
+<<<<<<< HEAD
+=======
+            boolean changed = false;
+            for(int j = 0; j < imageDescriptors.size(); ++j) {
+                ImageDescriptor imageDescriptor = imageDescriptors.get(j);
+                VulkanImage image = imageDescriptor.getImage();
+                long view = imageDescriptor.getImageView(image);
+                long sampler = image.getSampler();
+
+                if(imageDescriptor.isReadOnlyLayout)
+                    image.readOnlyLayout();
+
+                if(!this.boundTextures[j].isCurrentState(view, sampler)) {
+                    changed = true;
+                    break;
+                }
+            }
+
+            if(!changed && this.currentIdx != -1 &&
+                this.uniformBufferId == uniformBuffers.getId(frame)) {
+                this.currentSet = this.sets.get(this.currentIdx);
+                return;
+            }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             this.uniformBufferId = uniformBuffers.getId(frame);
             this.currentIdx++;
@@ -358,6 +427,7 @@ public abstract class Pipeline {
             vkUpdateDescriptorSets(DEVICE, descriptorWrites, null);
         }
 
+<<<<<<< HEAD
         private boolean transitionSamplers(UniformBuffers uniformBuffers) {
             boolean changed = false;
             for(int j = 0; j < imageDescriptors.size(); ++j) {
@@ -383,6 +453,8 @@ public abstract class Pipeline {
             return true;
         }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         private void createDescriptorSets(MemoryStack stack) {
             LongBuffer layout = stack.mallocLong(this.poolSize);
 //            layout.put(0, descriptorSetLayout);
@@ -455,8 +527,11 @@ public abstract class Pipeline {
 
     public static class Builder {
 
+<<<<<<< HEAD
         final EnumSet<SpecConstant> specConstants = EnumSet.noneOf(SpecConstant.class);
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         public static GraphicsPipeline createGraphicsPipeline(VertexFormat format, String path) {
             Pipeline.Builder pipelineBuilder = new Pipeline.Builder(format, path);
             pipelineBuilder.parseBindingsJSON();
@@ -536,7 +611,10 @@ public abstract class Pipeline {
             JsonArray jsonManualUbos = GsonHelper.getAsJsonArray(jsonObject, "ManualUBOs", null);
             JsonArray jsonSamplers = GsonHelper.getAsJsonArray(jsonObject, "samplers", null);
             JsonArray jsonPushConstants = GsonHelper.getAsJsonArray(jsonObject, "PushConstants", null);
+<<<<<<< HEAD
             JsonArray jsonSpecConstants = GsonHelper.getAsJsonArray(jsonObject, "SpecConstants", null);
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             if (jsonUbos != null) {
                 for (JsonElement jsonelement : jsonUbos) {
@@ -557,6 +635,7 @@ public abstract class Pipeline {
             if(jsonPushConstants != null) {
                 this.parsePushConstantNode(jsonPushConstants);
             }
+<<<<<<< HEAD
             if(jsonSpecConstants != null) {
                 this.parseSpecConstantNode(jsonSpecConstants);
             }
@@ -575,6 +654,8 @@ public abstract class Pipeline {
                 this.specConstants.add(SpecConstant.valueOf(name));
             }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         }
 
         private void parseUboNode(JsonElement jsonelement) {
@@ -619,10 +700,16 @@ public abstract class Pipeline {
         private void parseSamplerNode(JsonElement jsonelement) {
             JsonObject jsonobject = GsonHelper.convertToJsonObject(jsonelement, "Sampler");
             String name = GsonHelper.getAsString(jsonobject, "name");
+<<<<<<< HEAD
             int binding = GsonHelper.getAsInt(jsonobject, "binding");
 
             int imageIdx = VTextureSelector.getTextureIdx(name);
             this.imageDescriptors.add(new ImageDescriptor(binding, "sampler2D", name, imageIdx));
+=======
+
+            int imageIdx = VTextureSelector.getTextureIdx(name);
+            this.imageDescriptors.add(new ImageDescriptor(this.nextBinding, "sampler2D", name, imageIdx));
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             this.nextBinding++;
         }
 
@@ -646,7 +733,11 @@ public abstract class Pipeline {
             return switch (s) {
                 case "vertex" -> VK_SHADER_STAGE_VERTEX_BIT;
                 case "fragment" -> VK_SHADER_STAGE_FRAGMENT_BIT;
+<<<<<<< HEAD
                 case "all" -> VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+=======
+                case "all" -> VK_SHADER_STAGE_ALL_GRAPHICS;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 case "compute" -> VK_SHADER_STAGE_COMPUTE_BIT;
 
                 default -> throw new RuntimeException("cannot identify type..");

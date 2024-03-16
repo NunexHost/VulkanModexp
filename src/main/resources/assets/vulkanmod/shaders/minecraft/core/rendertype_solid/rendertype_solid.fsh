@@ -1,5 +1,9 @@
 #version 450
+<<<<<<< HEAD
 layout (constant_id = 0) const bool USE_FOG = true;
+=======
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 vec4 linear_fog(vec4 inColor, float vertexDistance, float fogStart, float fogEnd, vec4 fogColor) {
     if (vertexDistance <= fogStart) {
         return inColor;
@@ -12,6 +16,10 @@ vec4 linear_fog(vec4 inColor, float vertexDistance, float fogStart, float fogEnd
 layout(binding = 2) uniform sampler2D Sampler0;
 
 layout(binding = 1) uniform UBO{
+<<<<<<< HEAD
+=======
+    vec4 ColorModulator;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     vec4 FogColor;
     float FogStart;
     float FogEnd;
@@ -19,12 +27,21 @@ layout(binding = 1) uniform UBO{
 
 layout(location = 0) in float vertexDistance;
 layout(location = 1) in vec4 vertexColor;
+<<<<<<< HEAD
 layout(location = 2) in vec2 texCoord0;
+=======
+layout(location = 2) in vec3 normal;
+layout(location = 3) in vec2 texCoord0;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 layout(location = 0) out vec4 fragColor;
 
 void main() {
+<<<<<<< HEAD
     vec4 color = texture(Sampler0, texCoord0) * vertexColor;
+=======
+    vec4 color = texture(Sampler0, texCoord0) * vertexColor * ColorModulator;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, FogColor);
 }
 

@@ -22,6 +22,10 @@ float linear_fog_fade(float vertexDistance, float fogStart, float fogEnd) {
 layout(binding = 2) uniform sampler2D Sampler0;
 
 layout(binding = 1) uniform UBO{
+<<<<<<< HEAD
+=======
+    vec4 ColorModulator;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     float FogStart;
     float FogEnd;
 };
@@ -34,7 +38,11 @@ layout(location = 0) out vec4 fragColor;
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0) * vertexColor;
+<<<<<<< HEAD
     fragColor = color * linear_fog_fade(vertexDistance, FogStart, FogEnd);
+=======
+    fragColor = color * ColorModulator * linear_fog_fade(vertexDistance, FogStart, FogEnd);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }
 
 /*

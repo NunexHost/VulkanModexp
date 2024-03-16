@@ -3,7 +3,10 @@ package net.vulkanmod.mixin.render.vertex;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import net.minecraft.client.renderer.ShaderInstance;
+<<<<<<< HEAD
 import net.vulkanmod.Initializer;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.render.VBO;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -58,8 +61,12 @@ public class VertexBufferM {
      */
     @Overwrite
     public void drawWithShader(Matrix4f viewMatrix, Matrix4f projectionMatrix, ShaderInstance shader) {
+<<<<<<< HEAD
       if(Initializer.CONFIG.renderSky)
           vbo.drawWithShader(viewMatrix, projectionMatrix, shader);
+=======
+        vbo.drawWithShader(viewMatrix, projectionMatrix, shader);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     /**

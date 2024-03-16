@@ -7,7 +7,10 @@ import net.vulkanmod.vulkan.framebuffer.RenderPass;
 import net.vulkanmod.vulkan.texture.VulkanImage;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
+<<<<<<< HEAD
 import org.lwjgl.vulkan.VK10;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 import static org.lwjgl.vulkan.VK11.*;
 
@@ -150,10 +153,17 @@ public class GlFramebuffer {
 
         switch (attachment) {
             case(GL30.GL_COLOR_ATTACHMENT0) ->
+<<<<<<< HEAD
                     this.setColorAttachment(glTexture, Renderer.effectActive);
 
             case(GL30.GL_DEPTH_ATTACHMENT) ->
                     this.setDepthAttachment(glTexture, Renderer.effectActive);
+=======
+                    this.setColorAttachment(glTexture);
+
+            case(GL30.GL_DEPTH_ATTACHMENT) ->
+                    this.setDepthAttachment(glTexture);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             default -> throw new IllegalStateException("Unexpected value: " + attachment);
         }
@@ -170,15 +180,23 @@ public class GlFramebuffer {
 
         switch (attachment) {
             case(GL30.GL_COLOR_ATTACHMENT0) ->
+<<<<<<< HEAD
                     this.setColorAttachment(renderbuffer, Renderer.effectActive);
 
             case(GL30.GL_DEPTH_ATTACHMENT) ->
                     this.setDepthAttachment(renderbuffer, Renderer.effectActive);
+=======
+                    this.setColorAttachment(renderbuffer);
+
+            case(GL30.GL_DEPTH_ATTACHMENT) ->
+                    this.setDepthAttachment(renderbuffer);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
             default -> throw new IllegalStateException("Unexpected value: " + attachment);
         }
     }
 
+<<<<<<< HEAD
     void setColorAttachment(GlTexture texture, boolean effectActive) {
         this.colorAttachment = texture.vulkanImage;
         createAndBind(effectActive);
@@ -202,6 +220,31 @@ public class GlFramebuffer {
     }
 
     void createAndBind(boolean effectActive) {
+=======
+    void setColorAttachment(GlTexture texture) {
+        this.colorAttachment = texture.vulkanImage;
+        createAndBind();
+    }
+
+    void setDepthAttachment(GlTexture texture) {
+        //TODO check if texture is in depth format
+        this.depthAttachment = texture.vulkanImage;
+        createAndBind();
+    }
+
+    void setColorAttachment(GlRenderbuffer texture) {
+        this.colorAttachment = texture.vulkanImage;
+        createAndBind();
+    }
+
+    void setDepthAttachment(GlRenderbuffer texture) {
+        //TODO check if texture is in depth format
+        this.depthAttachment = texture.vulkanImage;
+        createAndBind();
+    }
+
+    void createAndBind() {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         //Cannot create without color attachment
         if(this.colorAttachment == null)
             return;
@@ -219,11 +262,19 @@ public class GlFramebuffer {
         RenderPass.Builder builder = RenderPass.builder(this.framebuffer);
 
         builder.getColorAttachmentInfo()
+<<<<<<< HEAD
                 .setLoadOp(effectActive ? VK_ATTACHMENT_LOAD_OP_LOAD : VK_ATTACHMENT_LOAD_OP_DONT_CARE)
                 .setFinalLayout(VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
         if(hasDepthImage)
             builder.getDepthAttachmentInfo().setOps(effectActive ? VK_ATTACHMENT_LOAD_OP_LOAD : VK10.VK_ATTACHMENT_LOAD_OP_DONT_CARE, effectActive ? VK_ATTACHMENT_STORE_OP_STORE : VK_ATTACHMENT_STORE_OP_DONT_CARE);
+=======
+                .setLoadOp(VK_ATTACHMENT_LOAD_OP_LOAD)
+                .setFinalLayout(VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
+        if(hasDepthImage)
+            builder.getDepthAttachmentInfo().setOps(VK_ATTACHMENT_LOAD_OP_LOAD, VK_ATTACHMENT_LOAD_OP_LOAD);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         this.renderPass = builder.build();
 
@@ -239,8 +290,13 @@ public class GlFramebuffer {
     }
 
     void cleanUp() {
+<<<<<<< HEAD
         if(this.framebuffer!=null) this.framebuffer.cleanUp(false);
         if(this.renderPass!=null) this.renderPass.cleanUp();
+=======
+        this.framebuffer.cleanUp(false);
+        this.renderPass.cleanUp();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         this.framebuffer = null;
         this.renderPass = null;

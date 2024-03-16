@@ -14,7 +14,10 @@ public class ImageDescriptor implements Descriptor {
     public final int imageIdx;
 
     public final boolean isStorageImage;
+<<<<<<< HEAD
     private final int stage;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public boolean useSampler;
     public boolean isReadOnlyLayout;
     private int layout;
@@ -31,11 +34,14 @@ public class ImageDescriptor implements Descriptor {
         this.isStorageImage = isStorageImage;
         this.useSampler = !isStorageImage;
         this.imageIdx = imageIdx;
+<<<<<<< HEAD
         this.stage = switch (name) {
             case "Sampler0", "DiffuseSampler", "SamplerProj" -> VK_SHADER_STAGE_FRAGMENT_BIT;
             case "Sampler1", "Sampler2" -> VK_SHADER_STAGE_VERTEX_BIT;
             default -> VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
         };
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         descriptorType = isStorageImage ? VK_DESCRIPTOR_TYPE_STORAGE_IMAGE : VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         setLayout(isStorageImage ? VK_IMAGE_LAYOUT_GENERAL : VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
@@ -53,7 +59,11 @@ public class ImageDescriptor implements Descriptor {
 
     @Override
     public int getStages() {
+<<<<<<< HEAD
         return stage;
+=======
+        return VK_SHADER_STAGE_ALL_GRAPHICS | VK_SHADER_STAGE_COMPUTE_BIT;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public void setLayout(int layout) {

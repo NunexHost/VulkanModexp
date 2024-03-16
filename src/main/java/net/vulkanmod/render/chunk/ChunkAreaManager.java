@@ -152,7 +152,11 @@ public class ChunkAreaManager {
         this.prevZ = zS;
     }
 
+<<<<<<< HEAD
     public ChunkArea getChunkArea(int x, int y, int z) {
+=======
+    public ChunkArea getChunkArea(RenderSection section, int x, int y, int z) {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         ChunkArea chunkArea;
 
         int shX = BASE_SH_XZ + 4;
@@ -194,7 +198,10 @@ public class ChunkAreaManager {
         }
     }
 
+<<<<<<< HEAD
     public ChunkArea getChunkArea(int i) {
         return this.chunkAreasArr[i];
     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

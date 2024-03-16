@@ -13,6 +13,7 @@ public record AreaSetQueue(int size, int[] set, StaticQueue<ChunkArea> queue)
     }
 
     public void add(ChunkArea chunkArea) {
+<<<<<<< HEAD
         if(chunkArea.index() >= this.size)
             throw new IndexOutOfBoundsException();
 
@@ -20,6 +21,15 @@ public record AreaSetQueue(int size, int[] set, StaticQueue<ChunkArea> queue)
         if((this.set[i] & (1 << (chunkArea.index() & 31))) == 0) {
             queue.add(chunkArea);
             this.set[i] |= (1 << (chunkArea.index() & 31));
+=======
+        if(chunkArea.index >= this.size)
+            throw new IndexOutOfBoundsException();
+
+        int i = chunkArea.index >> 5;
+        if((this.set[i] & (1 << (chunkArea.index & 31))) == 0) {
+            queue.add(chunkArea);
+            this.set[i] |= (1 << (chunkArea.index & 31));
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         }
     }
 

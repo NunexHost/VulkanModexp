@@ -20,13 +20,20 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.vulkanmod.Initializer;
 import net.vulkanmod.render.chunk.WorldRenderer;
+<<<<<<< HEAD
 import net.vulkanmod.render.profiling.Profiler2;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.vulkan.util.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+<<<<<<< HEAD
+=======
+import org.spongepowered.asm.mixin.injection.Redirect;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Set;
@@ -48,13 +55,20 @@ public abstract class LevelRendererMixin {
     @Shadow private boolean generateClouds;
     @Shadow @Final private EntityRenderDispatcher entityRenderDispatcher;
 
+<<<<<<< HEAD
 
+=======
+    @Shadow protected abstract boolean shouldShowEntityOutlines();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     @Shadow public abstract void needsUpdate();
 
     @Shadow public abstract void renderLevel(PoseStack poseStack, float f, long l, boolean bl, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f matrix4f);
 
+<<<<<<< HEAD
     @Unique
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private WorldRenderer worldRenderer;
 
     @Unique
@@ -86,6 +100,7 @@ public abstract class LevelRendererMixin {
      * @reason
      */
     @Overwrite
+<<<<<<< HEAD
     public boolean shouldShowEntityOutlines() {
         return false; //Temp Fix: Disable Glowing due to flickering artifacts with Post effect detection
     }
@@ -95,6 +110,8 @@ public abstract class LevelRendererMixin {
      * @reason
      */
     @Overwrite
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private void setupRender(Camera camera, Frustum frustum, boolean isCapturedFrustum, boolean spectator) {
         this.worldRenderer.setupRenderer(camera, frustum, isCapturedFrustum, spectator);
 
@@ -187,7 +204,11 @@ public abstract class LevelRendererMixin {
      */
     @Overwrite
     public boolean hasRenderedAllSections() {
+<<<<<<< HEAD
         return this.worldRenderer.allUpdated();
+=======
+        return this.worldRenderer.needsUpdate();
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     /**
@@ -199,6 +220,7 @@ public abstract class LevelRendererMixin {
         return this.worldRenderer.getVisibleSectionsCount();
     }
 
+<<<<<<< HEAD
     @Inject(method = "renderClouds", at = @At("HEAD"))
     private void pushProfiler2(PoseStack poseStack, Matrix4f matrix4f, float f, double d, double e, double g, CallbackInfo ci) {
         Profiler2 profiler = Profiler2.getMainProfiler();
@@ -227,6 +249,8 @@ public abstract class LevelRendererMixin {
         profiler.pop();
     }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     /**
      * @author
      * @reason
@@ -234,9 +258,15 @@ public abstract class LevelRendererMixin {
     @Overwrite
     private void renderEntity(Entity entity, double d, double e, double f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource) {
         if(!Initializer.CONFIG.entityCulling) {
+<<<<<<< HEAD
             double h = Mth.lerp((double)g, entity.xOld, entity.getX());
             double i = Mth.lerp((double)g, entity.yOld, entity.getY());
             double j = Mth.lerp((double)g, entity.zOld, entity.getZ());
+=======
+            double h = Mth.lerp(g, entity.xOld, entity.getX());
+            double i = Mth.lerp(g, entity.yOld, entity.getY());
+            double j = Mth.lerp(g, entity.zOld, entity.getZ());
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             float k = Mth.lerp(g, entity.yRotO, entity.getYRot());
             this.entityRenderDispatcher.render(entity, h - d, i - e, j - f, k, g, poseStack, multiBufferSource, this.entityRenderDispatcher.getPackedLightCoords(entity, g));
             return;
@@ -278,6 +308,15 @@ public abstract class LevelRendererMixin {
         }
     }
 
+<<<<<<< HEAD
+=======
+    @Redirect(method = "renderWorldBorder", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;getDepthFar()F"))
+    private float getRenderDistanceZFar(GameRenderer instance)
+    {
+        return instance.getRenderDistance() * 4F;
+    }
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 //    @Redirect(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;entitiesForRendering()Ljava/lang/Iterable;"))
 //    private Iterable<Entity> replaceIterator(ClientLevel instance) {
 //

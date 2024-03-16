@@ -7,43 +7,82 @@
   "mixins": [
   ],
   "client": [
+<<<<<<< HEAD
+=======
+    "window.WindowMixin",
+    "window.WindowAccessor",
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     "chunk.DirectionMixin",
     "chunk.FrustumMixin",
     "chunk.LevelRendererMixin",
     "chunk.RenderBuffersM",
     "chunk.VisibilitySetMixin",
+<<<<<<< HEAD
     "compatibility.EffectInstanceM",
     "compatibility.PostChainM",
     "compatibility.PostPassM",
+=======
+
+    "compatibility.EffectInstanceM",
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     "compatibility.ProgramM",
     "compatibility.UniformM",
     "compatibility.gl.GL11M",
     "compatibility.gl.GL30M",
+<<<<<<< HEAD
+=======
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     "debug.ChunkBorderRendererM",
     "debug.DebugScreenOverlayM",
     "debug.GlDebugInfoM",
     "debug.KeyboardHandlerM",
+<<<<<<< HEAD
     "gui.ChatComponentM",
     "gui.DebugHudM",
     "gui.GuiM",
     "matrix.Matrix4fM",
     "profiling.GuiMixin",
     "profiling.KeyboardHandlerM",
+=======
+
+    "gui.ChatComponentM",
+    "gui.DebugHudM",
+    "gui.GuiM",
+
+    "matrix.Matrix4fM",
+
+    "profiling.GuiMixin",
+    "profiling.KeyboardHandlerM",
+    "profiling.LevelRendererMixin",
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     "render.BufferUploaderM",
     "render.GameRendererMixin",
     "render.GlProgramManagerMixin",
     "render.GlStateManagerM",
+<<<<<<< HEAD
     "render.ItemBlockRenderTypesM",
     "render.LevelRendererMixin",
     "render.MinecraftMixin",
     "render.RenderSystemMixin",
+=======
+    "render.LevelRendererMixin",
+    "render.MinecraftMixin",
+    "render.RenderSystemMixin",
+    "render.RenderTypeM",
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     "render.ShaderInstanceM",
     "render.entity.EntityRendererM",
     "render.model.ModelPartCubeM",
     "render.model.ModelPartM",
     "render.particle.SingleQuadParticleM",
+<<<<<<< HEAD
     "render.particle.SingleQuadParticleM$VibrationSignalParticleM",
     "render.particle.SingleQuadParticleM$ShriekParticleM",
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     "render.target.MainTargetMixin",
     "render.target.RenderTargetMixin",
     "render.vertex.BufferBuilderM",
@@ -53,7 +92,16 @@
     "render.vertex.VertexBufferM",
     "render.vertex.VertexConsumerM",
     "render.vertex.VertexFormatMixin",
+<<<<<<< HEAD
     "screen.OptionsScreenM",
+=======
+
+    "screen.OptionsScreenM",
+
+    "texture.mip.MipmapGeneratorM",
+    "texture.image.MNativeImage",
+    "texture.image.NativeImageAccessor",
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     "texture.MAbstractTexture",
     "texture.MDynamicTexture",
     "texture.MFontTexture",
@@ -65,20 +113,37 @@
     "texture.MSpriteContents",
     "texture.MTextureManager",
     "texture.MTextureUtil",
+<<<<<<< HEAD
     "texture.image.MNativeImage",
     "texture.image.NativeImageAccessor",
     "texture.mip.MipmapGeneratorM",
     "util.ScreenshotRecorderM",
     "vertex.DefaultVertexFormatM",
+=======
+
+    "util.ScreenshotRecorderM",
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     "vertex.EntityOutlineGeneratorM",
     "vertex.SpriteCoordinateExpanderM",
     "vertex.VertexMultiConsumersM$DoubleM",
     "vertex.VertexMultiConsumersM$MultipleM",
     "vertex.VertexMultiConsumersM$SheetDecalM",
+<<<<<<< HEAD
     "wayland.InputConstantsM",
     "wayland.MinecraftMixin",
     "window.WindowAccessor",
     "window.WindowMixin"
+=======
+
+    "wayland.InputConstantsM",
+    "wayland.MinecraftMixin",
+
+    "texture.mip.MipmapGeneratorM",
+
+    "compatibility.PostChainM",
+    "compatibility.PostPassM"
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
   ],
   "injectors": {
     "defaultRequire": 1

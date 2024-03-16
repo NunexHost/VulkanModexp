@@ -2,7 +2,11 @@ package net.vulkanmod.vulkan.memory;
 
 import net.vulkanmod.vulkan.*;
 import net.vulkanmod.vulkan.queue.CommandPool;
+<<<<<<< HEAD
 import static net.vulkanmod.vulkan.queue.Queue.TransferQueue;
+=======
+import net.vulkanmod.vulkan.queue.TransferQueue;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 import java.nio.ByteBuffer;
 
@@ -41,7 +45,11 @@ public class IndirectBuffer extends Buffer {
     }
 
     private void resizeBuffer() {
+<<<<<<< HEAD
         this.type.freeBuffer(this);
+=======
+        MemoryManager.getInstance().addToFreeable(this);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         int newSize = this.bufferSize + (this.bufferSize >> 1);
         this.createBuffer(newSize);
         this.usedBytes = 0;

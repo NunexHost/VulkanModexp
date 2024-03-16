@@ -7,18 +7,32 @@
     "vertex": "position_color",
     "fragment": "position_color",
     "attributes": [
+<<<<<<< HEAD
         "Position",
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         "Color"
     ],
     "samplers": [
     ],
     "uniforms": [
         { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+<<<<<<< HEAD
         { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
+=======
+        { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+        { "name": "ColorModulator", "type": "float", "count": 4, "values": [ 1.0, 1.0, 1.0, 1.0 ] }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     ],
     "UBOs": [
         { "type":  "vertex", "binding": 0, "fields": [
             { "name": "MVP", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] }
+<<<<<<< HEAD
+=======
+        ] },
+        { "type":  "fragment", "binding": 1, "fields": [
+            { "name": "ColorModulator", "type": "float", "count": 4, "values": [ 1.0, 1.0, 1.0, 1.0 ] }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         ] }
     ]
 }

@@ -1,8 +1,11 @@
 package net.vulkanmod.vulkan.shader;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+<<<<<<< HEAD
 import net.vulkanmod.Initializer;
 import net.vulkanmod.vulkan.VRenderSystem;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.system.NativeResource;
@@ -59,7 +62,11 @@ public class SPIRVUtils {
         }
 
         if(OPTIMIZATIONS)
+<<<<<<< HEAD
             shaderc_compile_options_set_optimization_level(options, shaderc_optimization_level_zero);
+=======
+            shaderc_compile_options_set_optimization_level(options, shaderc_optimization_level_performance);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         if(DEBUG)
             shaderc_compile_options_set_generate_debug_info(options);
@@ -103,7 +110,11 @@ public class SPIRVUtils {
 
         time += (System.nanoTime() - startTime) / 1000000.0f;
 
+<<<<<<< HEAD
         return new SPIRV(result, shaderc_result_get_length(result));
+=======
+        return new SPIRV(result, shaderc_result_get_bytes(result));
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     private static SPIRV readFromStream(InputStream inputStream) {
@@ -113,13 +124,18 @@ public class SPIRVUtils {
             buffer.put(bytes);
             buffer.position(0);
 
+<<<<<<< HEAD
             return new SPIRV(MemoryUtil.memAddress(buffer), buffer.remaining());
+=======
+            return new SPIRV(MemoryUtil.memAddress(buffer), buffer);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         } catch (Exception e) {
             e.printStackTrace();
         }
         throw new RuntimeException("unable to read inputStream");
     }
 
+<<<<<<< HEAD
 
 
     public enum SpecConstant
@@ -147,6 +163,8 @@ public class SPIRVUtils {
     }
 
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public enum ShaderKind {
         VERTEX_SHADER(shaderc_glsl_vertex_shader),
         GEOMETRY_SHADER(shaderc_glsl_geometry_shader),
@@ -202,6 +220,7 @@ public class SPIRVUtils {
         }
     }
 
+<<<<<<< HEAD
     public record SPIRV(long handle, long size_t) implements NativeResource {
 
         public ByteBuffer bytecode() {
@@ -215,4 +234,27 @@ public class SPIRVUtils {
             }
         }
 
+=======
+    public static final class SPIRV implements NativeResource {
+
+        private final long handle;
+        private ByteBuffer bytecode;
+
+        public SPIRV(long handle, ByteBuffer bytecode) {
+            this.handle = handle;
+            this.bytecode = bytecode;
+        }
+
+        public ByteBuffer bytecode() {
+            return bytecode;
+        }
+
+        @Override
+        public void free() {
+//            shaderc_result_release(handle);
+            bytecode = null; // Help the GC
+        }
+    }
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

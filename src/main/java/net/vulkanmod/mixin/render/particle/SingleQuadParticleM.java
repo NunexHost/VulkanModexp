@@ -3,7 +3,15 @@ package net.vulkanmod.mixin.render.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+<<<<<<< HEAD
 import net.minecraft.client.particle.*;
+=======
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.core.BlockPos;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.vulkanmod.interfaces.ExtendedVertexBuilder;
@@ -12,19 +20,29 @@ import net.vulkanmod.render.chunk.WorldRenderer;
 import net.vulkanmod.vulkan.util.ColorUtil;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+<<<<<<< HEAD
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.util.function.Consumer;
+=======
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 @Mixin(SingleQuadParticle.class)
 public abstract class SingleQuadParticleM extends Particle {
 
     @Shadow protected float quadSize;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     @Shadow protected abstract float getU0();
     @Shadow protected abstract float getU1();
     @Shadow protected abstract float getV0();
@@ -82,6 +100,7 @@ public abstract class SingleQuadParticleM extends Particle {
         ExtendedVertexBuilder vertexBuilder = (ExtendedVertexBuilder)vertexConsumer;
         int packedColor = ColorUtil.packColorIntRGBA(this.rCol, this.gCol, this.bCol, this.alpha);
 
+<<<<<<< HEAD
         vertexBuilder.vulkanMod$vertex2(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z(), packedColor, u1, v1, light);
         vertexBuilder.vulkanMod$vertex2(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z(), packedColor, u1, v0, light);
         vertexBuilder.vulkanMod$vertex2(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z(), packedColor, u0, v0, light);
@@ -90,6 +109,20 @@ public abstract class SingleQuadParticleM extends Particle {
 
     @Unique
     boolean cull(WorldRenderer worldRenderer, float x, float y, float z) {
+=======
+        vertexBuilder.vertex(vector3fs[0].x(), vector3fs[0].y(), vector3fs[0].z(), u1, v1, packedColor, light);
+        vertexBuilder.vertex(vector3fs[1].x(), vector3fs[1].y(), vector3fs[1].z(), u1, v0, packedColor, light);
+        vertexBuilder.vertex(vector3fs[2].x(), vector3fs[2].y(), vector3fs[2].z(), u0, v0, packedColor, light);
+        vertexBuilder.vertex(vector3fs[3].x(), vector3fs[3].y(), vector3fs[3].z(), u0, v1, packedColor, light);
+    }
+
+    protected int getLightColor(float f) {
+        BlockPos blockPos = BlockPos.containing(this.x, this.y, this.z);
+        return this.level.hasChunkAt(blockPos) ? LevelRenderer.getLightColor(this.level, blockPos) : 0;
+    }
+
+    private boolean cull(WorldRenderer worldRenderer, float x, float y, float z) {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
         RenderSection section = worldRenderer.getSectionGrid().getSectionAtBlockPos((int) x, (int) y, (int) z);
         return section != null && section.getLastFrame() != worldRenderer.getLastFrame();
     }
@@ -98,6 +131,7 @@ public abstract class SingleQuadParticleM extends Particle {
     public ParticleRenderType getRenderType() {
         return null;
     }
+<<<<<<< HEAD
 
     @Mixin(VibrationSignalParticle.class)
     public abstract static class VibrationSignalParticleM
@@ -134,4 +168,6 @@ public abstract class SingleQuadParticleM extends Particle {
             ((ExtendedVertexBuilder)vertexConsumer).vulkanMod$vertex2(vector3f.x(), vector3f.y(), vector3f.z(), packedColor, f, g, i);
         }
     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

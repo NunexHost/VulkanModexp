@@ -1,5 +1,6 @@
 package net.vulkanmod.vulkan.memory;
 
+<<<<<<< HEAD
 import net.vulkanmod.vulkan.DeviceManager;
 import net.vulkanmod.vulkan.Vulkan;
 import net.vulkanmod.vulkan.util.VUtil;
@@ -118,10 +119,24 @@ public enum MemoryType {
 
 //    abstract void copyToBuffer(Buffer buffer, long bufferSize, ByteBuffer byteBuffer);
 //    abstract void copyFromBuffer(Buffer buffer, long bufferSize, ByteBuffer byteBuffer);
+=======
+import java.nio.ByteBuffer;
+
+public abstract class MemoryType {
+    protected Type type;
+
+    abstract void createBuffer(Buffer buffer, int size);
+    abstract void copyToBuffer(Buffer buffer, long bufferSize, ByteBuffer byteBuffer);
+
+
+//    abstract void copyToBuffer(Buffer buffer, long bufferSize, ByteBuffer byteBuffer);
+    abstract void copyFromBuffer(Buffer buffer, long bufferSize, ByteBuffer byteBuffer);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
     /**
      * Replace data from byte 0
      */
+<<<<<<< HEAD
     public void uploadBuffer(Buffer buffer, ByteBuffer byteBuffer, int dstOffset)
     {
       if(this.equals(GPU_MEM))
@@ -145,4 +160,18 @@ public enum MemoryType {
 //    public int checkUsage(int usage) {
 //        return (usage & this.flags) !=0 ? usage : this.flags;
 //    }
+=======
+    abstract void uploadBuffer(Buffer buffer, ByteBuffer byteBuffer);
+
+    abstract boolean mappable();
+
+    public Type getType() {
+       return this.type;
+    }
+
+    public enum Type {
+        DEVICE_LOCAL,
+        HOST_LOCAL
+    }
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }

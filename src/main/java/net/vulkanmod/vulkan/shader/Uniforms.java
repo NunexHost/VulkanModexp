@@ -42,7 +42,11 @@ public class Uniforms {
         //Vec3
         vec3f_uniformMap.put("Light0_Direction", () -> VRenderSystem.lightDirection0);
         vec3f_uniformMap.put("Light1_Direction", () -> VRenderSystem.lightDirection1);
+<<<<<<< HEAD
 //        vec3f_uniformMap.put("ChunkOffset", () -> VRenderSystem.ChunkOffset);
+=======
+        vec3f_uniformMap.put("ChunkOffset", () -> VRenderSystem.ChunkOffset);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
         //Vec4
         vec4f_uniformMap.put("ColorModulator", VRenderSystem::getShaderColor);

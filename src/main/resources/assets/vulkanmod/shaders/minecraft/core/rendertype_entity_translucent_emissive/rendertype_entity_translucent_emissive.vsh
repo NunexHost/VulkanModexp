@@ -17,12 +17,21 @@ layout(binding = 0) uniform UniformBufferObject {
 };
 
 layout(binding = 3) uniform sampler2D Sampler1;
+<<<<<<< HEAD
 //layout(binding = 4) uniform sampler2D Sampler2;
+=======
+layout(binding = 4) uniform sampler2D Sampler2;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 layout(location = 0) out vec4 vertexColor;
 layout(location = 1) out vec4 overlayColor;
 layout(location = 2) out vec2 texCoord0;
+<<<<<<< HEAD
 layout(location = 3) out float vertexDistance;
+=======
+layout(location = 3) out vec3 normal;
+layout(location = 4) out float vertexDistance;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 void main() {
     gl_Position = MVP * vec4(Position, 1.0);
@@ -31,7 +40,11 @@ void main() {
     vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color);
     overlayColor = texelFetch(Sampler1, UV1, 0);
     texCoord0 = UV0;
+<<<<<<< HEAD
     //normal = (MVP * vec4(Normal, 0.0)).xyz;
+=======
+    normal = (MVP * vec4(Normal, 0.0)).xyz;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 }
 
 /*

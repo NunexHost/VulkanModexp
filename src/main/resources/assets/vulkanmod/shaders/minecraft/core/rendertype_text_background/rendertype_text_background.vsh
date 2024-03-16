@@ -9,10 +9,18 @@ layout(binding = 0) uniform UniformBufferObject {
     mat4 ModelViewMat;
 };
 
+<<<<<<< HEAD
 layout(binding = 3) uniform sampler2D Sampler2;
 
 layout(location = 0) out vec4 vertexColor;
 layout(location = 1) out float vertexDistance;
+=======
+layout(binding = 2) uniform sampler2D Sampler2;
+
+layout(location = 0) out vec4 vertexColor;
+layout(location = 1) out vec2 texCoord0;
+layout(location = 2) out float vertexDistance;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 void main() {
     gl_Position = MVP * vec4(Position, 1.0);

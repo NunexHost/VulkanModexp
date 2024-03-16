@@ -7,7 +7,10 @@ import net.vulkanmod.vulkan.Renderer;
 import net.vulkanmod.vulkan.Synchronization;
 import net.vulkanmod.vulkan.Vulkan;
 import net.vulkanmod.vulkan.queue.Queue;
+<<<<<<< HEAD
 import net.vulkanmod.vulkan.queue.QueueFamilyIndices;
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 import net.vulkanmod.vulkan.texture.VulkanImage;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.vulkan.*;
@@ -31,6 +34,14 @@ import static org.lwjgl.vulkan.VK10.*;
 public class SwapChain extends Framebuffer {
     private static final int DEFAULT_IMAGE_COUNT = 3;
 
+<<<<<<< HEAD
+=======
+    //Necessary until tearing-control-unstable-v1 is fully implemented on all GPU Drivers for Wayland
+    //(As Immediate Mode (and by extension Screen tearing) doesn't exist on most Wayland installations currently)
+    //Try to use Mailbox if possible (in case FreeSync/G-Sync needs it)
+    private static final int defUncappedMode = checkPresentMode(VK_PRESENT_MODE_MAILBOX_KHR, VK_PRESENT_MODE_IMMEDIATE_KHR);
+
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private RenderPass renderPass;
     private long[] framebuffers;
 
@@ -110,9 +121,17 @@ public class SwapChain extends Framebuffer {
             createInfo.imageArrayLayers(1);
             createInfo.imageUsage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT);
 
+<<<<<<< HEAD
             if(QueueFamilyIndices.graphicsFamily!=QueueFamilyIndices.presentFamily) {
                 createInfo.imageSharingMode(VK_SHARING_MODE_CONCURRENT);
                 createInfo.pQueueFamilyIndices(stack.ints(QueueFamilyIndices.graphicsFamily, QueueFamilyIndices.presentFamily));
+=======
+            Queue.QueueFamilyIndices indices = Queue.getQueueFamilies();
+
+            if(!indices.graphicsFamily.equals(indices.presentFamily)) {
+                createInfo.imageSharingMode(VK_SHARING_MODE_CONCURRENT);
+                createInfo.pQueueFamilyIndices(stack.ints(indices.graphicsFamily, indices.presentFamily));
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
             } else {
                 createInfo.imageSharingMode(VK_SHARING_MODE_EXCLUSIVE);
             }
@@ -302,7 +321,11 @@ public class SwapChain extends Framebuffer {
 
     private void createDepthResources() {
         this.depthAttachment = VulkanImage.createDepthImage(depthFormat, this.width, this.height,
+<<<<<<< HEAD
                 VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
+=======
+                VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 false, false);
     }
 
@@ -348,6 +371,7 @@ public class SwapChain extends Framebuffer {
     }
 
     private int getPresentMode(IntBuffer availablePresentModes) {
+<<<<<<< HEAD
         int requestedMode = vsync ? Initializer.CONFIG.vsyncMode : Initializer.CONFIG.uncappedMode;
 
         //Some Drivers change the supported modes in FullScreen: can't assume any consistency
@@ -355,6 +379,16 @@ public class SwapChain extends Framebuffer {
         for(int i = 0;i < availablePresentModes.capacity();i++) {
             if(availablePresentModes.get(i) == requestedMode) {
                 Initializer.LOGGER.info("Using DisplayMode: "+getDisplayModeString(requestedMode));
+=======
+        int requestedMode = vsync ? VK_PRESENT_MODE_FIFO_KHR : defUncappedMode;
+
+        //fifo mode is the only mode that has to be supported
+        if(requestedMode == VK_PRESENT_MODE_FIFO_KHR)
+            return VK_PRESENT_MODE_FIFO_KHR;
+
+        for(int i = 0;i < availablePresentModes.capacity();i++) {
+            if(availablePresentModes.get(i) == requestedMode) {
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
                 return requestedMode;
             }
         }
@@ -364,6 +398,7 @@ public class SwapChain extends Framebuffer {
 
     }
 
+<<<<<<< HEAD
     private String getDisplayModeString(int requestedMode) {
         return switch(requestedMode)
         {
@@ -374,6 +409,8 @@ public class SwapChain extends Framebuffer {
         };
     }
 
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private static VkExtent2D getExtent(VkSurfaceCapabilitiesKHR capabilities) {
 
         if(capabilities.currentExtent().width() != UINT32_MAX) {
@@ -397,6 +434,7 @@ public class SwapChain extends Framebuffer {
         return actualExtent;
     }
 
+<<<<<<< HEAD
     public static Integer[] checkPresentModes(int... requestedModes) {
 
         try(MemoryStack stack = stackPush())
@@ -424,6 +462,8 @@ public class SwapChain extends Framebuffer {
             return supportedModes; //If None of the request modes exist/are supported by Driver
         }
     }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     private static int checkPresentMode(int... requestedModes) {
         try(MemoryStack stack = MemoryStack.stackPush())
         {
@@ -450,6 +490,9 @@ public class SwapChain extends Framebuffer {
     public RenderPass getRenderPass() {
         return renderPass;
     }
+<<<<<<< HEAD
     public int getFramesNum() { return Initializer.CONFIG.frameQueueSize; }
+=======
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     public int getImagesNum() { return this.swapChainImages.size(); }
 }

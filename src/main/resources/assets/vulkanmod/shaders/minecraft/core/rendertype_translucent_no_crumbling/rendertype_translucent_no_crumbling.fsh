@@ -7,7 +7,12 @@ layout(binding = 1) uniform UBO{
 };
 
 layout(location = 0) in vec4 vertexColor;
+<<<<<<< HEAD
 layout(location = 1) in vec2 texCoord0;
+=======
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec2 texCoord0;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
 
 layout(location = 0) out vec4 fragColor;
 

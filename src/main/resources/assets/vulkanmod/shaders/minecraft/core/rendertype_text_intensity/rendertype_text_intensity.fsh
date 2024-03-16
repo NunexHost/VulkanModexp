@@ -25,7 +25,11 @@ layout(location = 2) in float vertexDistance;
 layout(location = 0) out vec4 fragColor;
 
 void main() {
+<<<<<<< HEAD
     vec4 color = texture(Sampler0, texCoord0).rrrr * vertexColor;
+=======
+    vec4 color = texture(Sampler0, texCoord0).rrrr * vertexColor * ColorModulator;
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     if (color.a < 0.1) {
         discard;
     }

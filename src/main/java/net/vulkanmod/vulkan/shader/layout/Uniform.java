@@ -42,7 +42,11 @@ public class Uniform {
     void update(long ptr) {
         MappedBuffer src = values.get();
 
+<<<<<<< HEAD
         MemoryUtil.memCopy(src.ptr(), ptr + this.offset, this.size);
+=======
+        MemoryUtil.memCopy(src.ptr, ptr + this.offset, this.size);
+>>>>>>> f02a3979439dc5076424a7a907ca614b95849e74
     }
 
     public static Uniform createField(Info info) {

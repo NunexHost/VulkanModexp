@@ -23,6 +23,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Consumer;
 
@@ -30,7 +31,6 @@ import static com.mojang.blaze3d.systems.RenderSystem.*;
 
 @Mixin(RenderSystem.class)
 public abstract class RenderSystemMixin {
-
     @Shadow private static Matrix4f projectionMatrix;
     @Shadow private static Matrix4f savedProjectionMatrix;
     @Shadow @Final private static PoseStack modelViewStack;
@@ -40,13 +40,14 @@ public abstract class RenderSystemMixin {
     @Shadow @Final private static float[] shaderColor;
     @Shadow @Final private static Vector3f[] shaderLightDirections;
 
-    @Shadow
-    public static void assertOnGameThreadOrInit() {
-    }
-
-    @Shadow @Final private static float[] shaderFogColor;
-
+	@Shadow @Final private static float[] shaderFogColor;
     @Shadow private static @Nullable Thread renderThread;
+
+    @Shadow
+    public static void assertOnGameThreadOrInit() { }
+
+	@Shadow
+	private static void pollEvents() { }
 
     /**
      * @author
@@ -60,7 +61,6 @@ public abstract class RenderSystemMixin {
 
             //shaderTextures[i] = abstractTexture.getId();
         }
-
     }
 
     /**
@@ -77,7 +77,6 @@ public abstract class RenderSystemMixin {
 
             VTextureSelector.bindTexture(i, vulkanImage);
         }
-
     }
 
     /**
@@ -135,13 +134,13 @@ public abstract class RenderSystemMixin {
      * @author
      */
     @Overwrite(remap = false)
-    public static void glGenBuffers(Consumer<Integer> consumer) {}
+    public static void glGenBuffers(Consumer<Integer> consumer) { }
 
     /**
      * @author
      */
     @Overwrite(remap = false)
-    public static void glGenVertexArrays(Consumer<Integer> consumer) {}
+    public static void glGenVertexArrays(Consumer<Integer> consumer) { }
 
     /**
      * @author
@@ -164,9 +163,10 @@ public abstract class RenderSystemMixin {
      */
     @Overwrite(remap = false)
     public static void flipFrame(long window) {
-        org.lwjgl.glfw.GLFW.glfwPollEvents();
+        pollEvents();
         RenderSystem.replayQueue();
         Tesselator.getInstance().getBuilder().clear();
+		pollEvents();
     }
 
     /**
@@ -199,7 +199,7 @@ public abstract class RenderSystemMixin {
     @Overwrite(remap = false)
     public static void disableDepthTest() {
         assertOnGameThread();
-        //GlStateManager._disableDepthTest();
+        // GlStateManager._disableDepthTest();
         VRenderSystem.disableDepthTest();
     }
 
@@ -244,7 +244,7 @@ public abstract class RenderSystemMixin {
     @Overwrite(remap = false)
     public static void blendEquation(int i) {
         assertOnRenderThread();
-        //TODO
+        // TODO
     }
 
     /**
@@ -453,7 +453,7 @@ public abstract class RenderSystemMixin {
         if (!isOnRenderThread()) {
             recordRenderCall(() -> {
                 modelViewMatrix = matrix4f;
-                //Vulkan
+                // Vulkan
                 VRenderSystem.applyModelViewMatrix(matrix4f);
                 VRenderSystem.calculateMVP();
             });
@@ -463,7 +463,6 @@ public abstract class RenderSystemMixin {
             VRenderSystem.applyModelViewMatrix(matrix4f);
             VRenderSystem.calculateMVP();
         }
-
     }
 
     /**
@@ -482,6 +481,7 @@ public abstract class RenderSystemMixin {
      */
     @Overwrite(remap = false)
     public static void texParameter(int target, int pname, int param) {
-        GlTexture.texParameteri(target, pname, param);
+        // GlTexture.texParameteri(target, pname, param);
+		// Might fix?
     }
 }

@@ -292,7 +292,6 @@ public class PipelineState {
             return switch (f) {
                 case 5387 -> VK_LOGIC_OP_OR_REVERSE;
                 //TODO complete
-
                 default -> VK_LOGIC_OP_AND;
             };
         }
@@ -342,6 +341,7 @@ public class PipelineState {
                 case 516 -> VK_COMPARE_OP_GREATER;
                 case 518 -> VK_COMPARE_OP_GREATER_OR_EQUAL;
                 case 514 -> VK_COMPARE_OP_EQUAL;
+				case 513 -> VK_COMPARE_OP_LESS;
                 default -> throw new RuntimeException("unknown blend factor..");
 
 //                case 515 -> VK_COMPARE_OP_GREATER_OR_EQUAL;

@@ -246,26 +246,22 @@ public class GraphicsPipeline extends Pipeline {
 
             switch (usage) {
                 case POSITION:
-                    switch (type) {
-						case VertexFormatElement.Type.FLOAT:
-							posDescription.format(VK_FORMAT_R32G32B32_SFLOAT);
-							posDescription.offset(offset);
+                    if (type == VertexFormatElement.Type.FLOAT) {
+                        posDescription.format(VK_FORMAT_R32G32B32_SFLOAT);
+                        posDescription.offset(offset);
 
-							offset += 12;
-							break;  
-						case VertexFormatElement.Type.USHORT:
-							posDescription.format(VK_FORMAT_R16G16B16_SFLOAT);
-							posDescription.offset(offset);
+                        offset += 12;
+                    } else if (type == VertexFormatElement.Type.USHORT) {
+                        posDescription.format(VK_FORMAT_R16G16B16_SFLOAT);
+                        posDescription.offset(offset);
 
-							offset += 6;
-							break;
-						case VertexFormatElement.Type.BYTE:
-							posDescription.format(VK_FORMAT_R8G8B8A8_SINT);
-							posDescription.offset(offset);
+                        offset += 6;
+                    } else if (type == VertexFormatElement.Type.BYTE) {
+                        posDescription.format(VK_FORMAT_R8G8B8A8_SINT);
+                        posDescription.offset(offset);
 
-							offset += 4;
-							break;
-					}
+                        offset += 4;
+                    }
                     break;
 
                 case COLOR:
@@ -276,32 +272,27 @@ public class GraphicsPipeline extends Pipeline {
                     break;
 
                 case UV:
-                    switch (type) {
-						case VertexFormatElement.Type.FLOAT:
-							posDescription.format(VK_FORMAT_R32G32_SFLOAT);
-							posDescription.offset(offset);
+                    if (type == VertexFormatElement.Type.FLOAT){
+                        posDescription.format(VK_FORMAT_R32G32_SFLOAT);
+                        posDescription.offset(offset);
 
-							offset += 8;
-							break;
-						case VertexFormatElement.Type.SHORT:
-							posDescription.format(VK_FORMAT_R16G16_SINT);
-							posDescription.offset(offset);
+                        offset += 8;
+                    } else if(type == VertexFormatElement.Type.SHORT){
+                        posDescription.format(VK_FORMAT_R16G16_SINT);
+                        posDescription.offset(offset);
 
-							offset += 4;
-							break;
-						case VertexFormatElement.Type.USHORT:
-							posDescription.format(VK_FORMAT_R16G16_UINT);
-							posDescription.offset(offset);
+                        offset += 4;
+                    } else if(type == VertexFormatElement.Type.USHORT){
+                        posDescription.format(VK_FORMAT_R16G16_UINT);
+                        posDescription.offset(offset);
 
-							offset += 4;
-							break;
-						case VertexFormatElement.Type.UINT:
-							posDescription.format(VK_FORMAT_R32_UINT);
-							posDescription.offset(offset);
+                        offset += 4;
+                    } else if(type == VertexFormatElement.Type.UINT){
+                        posDescription.format(VK_FORMAT_R32_UINT);
+                        posDescription.offset(offset);
 
-							offset += 4;
-						break;
-					}
+                        offset += 4;
+                    }
                     break;
 
                 case NORMAL:
@@ -312,33 +303,27 @@ public class GraphicsPipeline extends Pipeline {
                     break;
 
                 case PADDING:
-                    //Do nothing as padding format (VK_FORMAT_R8) is not supported everywhere
                     break;
 
                 case GENERIC:
-                    if(type == VertexFormatElement.Type.SHORT && elementCount == 1){
+                    if (type == VertexFormatElement.Type.SHORT && elementCount == 1){
                         posDescription.format(VK_FORMAT_R16_SINT);
                         posDescription.offset(offset);
 
                         offset += 2;
                         break;
-                    }
-                    else if (type == VertexFormatElement.Type.INT && elementCount == 1) {
+                    } else if (type == VertexFormatElement.Type.INT && elementCount == 1) {
                         posDescription.format(VK_FORMAT_R32_SINT);
                         posDescription.offset(offset);
 
                         offset += 4;
                         break;
-                    }
-                    else {
+                    } else {
                         throw new RuntimeException(String.format("Unknown format: %s", usage));
                     }
 
-
-                default:
-                    throw new RuntimeException(String.format("Unknown format: %s", usage));
+                default: throw new RuntimeException(String.format("Unknown format: %s", usage));
             }
-
             posDescription.offset(((VertexFormatMixed)(vertexFormat)).getOffset(i));
         }
 

@@ -23,7 +23,7 @@ public class Initializer implements ClientModInitializer {
 				.getMetadata()
 				.getVersion().getFriendlyString();
 
-		LOGGER.info("Expect High FPS at the cost of stability.")
+		LOGGER.info("Expect High FPS at the cost of stability.");
 		LOGGER.info("== VulkanMod ==");
 
 		VideoResolution.init();

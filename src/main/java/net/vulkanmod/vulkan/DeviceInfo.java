@@ -130,7 +130,7 @@ public class DeviceInfo {
         };
     }
 
-	public static decodeDefVersion(int v) {
+	public static String decodeDefVersion(int v) {
 		return VK_VERSION_MAJOR(v) + "." + VK_VERSION_MINOR(v) + "." + VK_VERSION_PATCH(v);
 	}
 

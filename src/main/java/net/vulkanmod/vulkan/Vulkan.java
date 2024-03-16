@@ -232,7 +232,7 @@ public class Vulkan {
     }
 
     static boolean checkValidationLayerSupport() {
-        tryv(MemoryStack stack = stackPush()) {
+		try (MemoryStack stack = stackPush()) {
             IntBuffer layerCount = stack.ints(0);
             vkEnumerateInstanceLayerProperties(layerCount, null);
 
@@ -278,7 +278,7 @@ public class Vulkan {
         try (MemoryStack stack = stackPush()) {
             LongBuffer pSurface = stack.longs(VK_NULL_HANDLE);
 
-            ifv(glfwCreateWindowSurface(instance, window, null, pSurface) != VK_SUCCESS) {
+            if (glfwCreateWindowSurface(instance, window, null, pSurface) != VK_SUCCESS) {
                 throw new RuntimeException("Failed to create window surface");
             }
 

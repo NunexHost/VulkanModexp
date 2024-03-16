@@ -60,7 +60,7 @@ public class DeviceInfo {
             this.deviceName = properties.deviceNameString();
             this.driverId = getVkDriverId(vulkan12Properties.driverID());
             this.driverVersion = vulkan12Properties.driverInfoString();
-            this.vkDriverVersion = decDefVersion(properties.apiVersion());
+            this.vkDriverVersion = decodeDefVersion(properties.apiVersion());
             this.vkInstanceLoaderVersion = decodeDefVersion(getInstVkVer());
 
             this.availableFeatures = VkPhysicalDeviceFeatures2.calloc();
